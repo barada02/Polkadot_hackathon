@@ -1,3 +1,7 @@
+---
+markmap:
+  initialExpandLevel: 1
+---
 # Polkadot Developer's Universe - Mall Analogy Markmap
 
 ## 🏛️ The Mall Structure (Polkadot Network)
