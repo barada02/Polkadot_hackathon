@@ -1,0 +1,366 @@
+# Comprehensive .gitignore for Full-Stack Development
+# React, Node.js, Express, Fastify, and Web3 Development
+
+# ====================
+# Operating Systems
+# ====================
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ====================
+# Node.js
+# ====================
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Diagnostic reports
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+.nyc_output
+
+# Grunt intermediate storage
+.grunt
+
+# Bower dependency directory
+bower_components
+
+# node-waf configuration
+.lock-wscript
+
+# Compiled binary addons
+build/Release
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Snowpack dependency directory
+web_modules/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variable files
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# parcel-bundler cache
+.cache
+.parcel-cache
+
+# Next.js build output
+.next
+out
+
+# Nuxt.js build / generate output
+.nuxt
+dist
+
+# Gatsby files
+.cache/
+public
+
+# Vuepress build output
+.vuepress/dist
+
+# Serverless directories
+.serverless/
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/
+
+# TernJS port file
+.tern-port
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# yarn v2
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# ====================
+# React & Frontend
+# ====================
+# Create React App
+build/
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Vite
+dist/
+dist-ssr/
+*.local
+
+# Webpack
+webpack-stats.json
+
+# Bundle analyzer
+bundle-analyzer-report.html
+
+# Storybook build outputs
+storybook-static
+
+# ====================
+# Express & Web Servers
+# ====================
+# Express session store
+sessions/
+
+# ====================
+# Database
+# ====================
+# SQLite
+*.sqlite
+*.sqlite3
+*.db
+
+# MongoDB
+*.mongorc.js
+
+# Redis
+dump.rdb
+
+# ====================
+# Web3 & Blockchain Specific
+# ====================
+# Hardhat
+artifacts/
+cache/
+typechain/
+typechain-types/
+
+# Truffle
+build/
+contracts/*.json
+
+# Foundry
+out/
+cache_hardhat/
+
+# Polkadot & Substrate
+.substrate/
+runtime/wasm/target/
+
+# Private keys and wallets
+*.key
+*.keystore
+*.p12
+*.pem
+mnemonic.txt
+private_keys/
+wallets/
+secrets/
+
+# ====================
+# IDEs & Editors
+# ====================
+# VS Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+# JetBrains IDEs
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# Sublime Text
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+*.sublime-workspace
+*.sublime-project
+
+# Atom
+.atom/
+
+# ====================
+# Testing
+# ====================
+# Jest
+jest.config.js
+coverage/
+.nyc_output/
+
+# Cypress
+cypress/videos/
+cypress/screenshots/
+cypress/fixtures/
+cypress/downloads/
+
+# Playwright
+test-results/
+playwright-report/
+
+# ====================
+# Build Tools & Package Managers
+# ====================
+# Webpack
+webpack.config.*.js
+
+# Rollup
+rollup.config.*.js
+
+# Parcel
+.parcel-cache/
+
+# Rush
+common/temp/
+common/scripts/
+shrinkwrap.yaml
+
+# pnpm
+.pnpm-store/
+
+# ====================
+# Deployment & DevOps
+# ====================
+# Docker
+.dockerignore
+
+# Kubernetes
+*.kubeconfig
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraformrc
+terraform.rc
+
+# AWS
+.aws/
+
+# Vercel
+.vercel
+
+# Netlify
+.netlify
+
+# ====================
+# Temporary & System Files
+# ====================
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Lock files (choose one based on your package manager)
+# package-lock.json  # Uncomment if using yarn exclusively
+# yarn.lock          # Uncomment if using npm exclusively
+# pnpm-lock.yaml     # Uncomment if not using pnpm
+
+# Backup files
+*.backup
+*.bak
+*.orig
+
+# Archive files
+*.zip
+*.tar.gz
+*.rar
+
+# ====================
+# Custom Project Files
+# ====================
+# Add your project-specific ignores below
+# Example:
+# config/local.json
+# uploads/
+# downloads/
+# static/user-generated-content/
