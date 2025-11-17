@@ -3,8 +3,6 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
-import chainsRoutes from './src/routes/chains.js';
-import polkadotRoutes from './src/routes/polkadot.js';
 import portfolioRoutes from './src/routes/portfolio.js';
 
 // Load environment variables
@@ -39,23 +37,17 @@ app.get('/api/v1', (req, res) => {
     endpoints: [
       'GET /health - Health check',
       'GET /api/v1 - API info',
-      'GET /api/v1/chains/status - Get all chain connection status (simulated)',
-      'POST /api/v1/chains/test - Test all chain connections (simulated)',
-      'POST /api/v1/chains/test/:chainId - Test specific chain connection (simulated)',
-      'GET /api/v1/chains/:chainId - Get chain information',
-      'POST /api/v1/polkadot/test-connection - Test real Polkadot connection',
-      'GET /api/v1/polkadot/connection-status - Get real connection status',
-      'POST /api/v1/polkadot/cleanup - Cleanup connections',
-      'POST /api/v1/portfolio/analyze - Analyze address portfolio (MAIN FRONTEND ENDPOINT)',
-      'POST /api/v1/portfolio/validate-address - Validate address format',
-      'GET /api/v1/portfolio/test-addresses - Get test addresses for development'
+      'POST /api/v1/portfolio/analyze - Multi-chain portfolio analysis (MAIN ENDPOINT)',
+      'POST /api/v1/portfolio/chain - Single chain portfolio analysis',
+      'POST /api/v1/portfolio/validate-address - Validate Polkadot address format',
+      'GET /api/v1/portfolio/supported-chains - Get list of supported chains',
+      'GET /api/v1/portfolio/test-addresses - Get test addresses for development',
+      'POST /api/v1/portfolio/cleanup - Cleanup connections (dev helper)'
     ]
   });
 });
 
 // Route handlers
-app.use('/api/v1/chains', chainsRoutes);
-app.use('/api/v1/polkadot', polkadotRoutes);
 app.use('/api/v1/portfolio', portfolioRoutes);
 
 // 404 handler
@@ -81,7 +73,6 @@ app.listen(PORT, () => {
   console.log(`📡 Environment: ${process.env.NODE_ENV}`);
   console.log(`🌐 CORS enabled for: ${process.env.FRONTEND_URL}`);
   console.log(`💡 Health check: http://localhost:${PORT}/health`);
-  console.log(`⛓️  Chains API: http://localhost:${PORT}/api/v1/chains`);
-  console.log(`🔗 Polkadot API: http://localhost:${PORT}/api/v1/polkadot`);
+  console.log(`📊 Portfolio API: http://localhost:${PORT}/api/v1/portfolio`);
   console.log(`📊 Portfolio API: http://localhost:${PORT}/api/v1/portfolio`);
 });
