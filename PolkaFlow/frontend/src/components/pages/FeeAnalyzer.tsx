@@ -10,7 +10,6 @@ function FeeAnalyzer({ address }: FeeAnalyzerProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [supportedChains, setSupportedChains] = useState([]);
-  const [testScenario, setTestScenario] = useState(null);
   const [formData, setFormData] = useState({
     destinationAddress: '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY', // Default test address
     amount: '1000000000000' // Default 1 DOT in planck units
@@ -18,38 +17,19 @@ function FeeAnalyzer({ address }: FeeAnalyzerProps) {
 
   useEffect(() => {
     loadSupportedChains();
-    loadTestScenario();
   }, []);
 
   const loadSupportedChains = async () => {
     try {
       const chains = await ApiService.getFeesSupportedChains();
       setSupportedChains(chains.chains || []);
-      // Auto-select first two chains if available
-      if (chains.chains && chains.chains.length >= 2) {
-        setFormData(prev => ({
-          ...prev,
-          fromChain: chains.chains[0].chainId,
-          toChain: chains.chains[1].chainId
-        }));
-      }
+
     } catch (err) {
       console.error('Failed to load supported chains:', err);
     }
   };
 
-  const loadTestScenario = async () => {
-    try {
-      const response = await ApiService.getTestScenario();
-      console.log('Test scenario response:', response); // Debug log
-      
-      // Handle nested response structure
-      const scenario = response.data?.data || response.data || response;
-      setTestScenario(scenario);
-    } catch (err) {
-      console.error('Failed to load test scenario:', err);
-    }
-  };
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -219,33 +199,6 @@ function FeeAnalyzer({ address }: FeeAnalyzerProps) {
             </div>
           </div>
         </>
-      )}
-
-      {/* Test Scenario Display */}
-      {testScenario && (
-        <div className="card">
-          <h3>🎯 Demo Scenario (Live Data)</h3>
-          <div className="demo-scenario">
-            <div className="scenario-header">
-              <span>Transfer: {formatAmount(testScenario.amount)} from {testScenario.fromChain} to {testScenario.toChain}</span>
-            </div>
-            <div className="scenario-results">
-              <div className="scenario-stat">
-                <span className="label">Direct Fee:</span>
-                <span className="value">{formatFee(testScenario.directFee)}</span>
-              </div>
-              <div className="scenario-stat">
-                <span className="label">Optimal Fee:</span>
-                <span className="value">{formatFee(testScenario.optimalFee)}</span>
-              </div>
-              <div className="scenario-stat highlight">
-                <span className="label">Savings:</span>
-                <span className="value">{formatPercentage(testScenario.savingsPercentage)}</span>
-              </div>
-            </div>
-            <p className="scenario-description">{testScenario.description}</p>
-          </div>
-        </div>
       )}
 
       {/* Supported Networks */}
