@@ -1,7 +1,15 @@
 // Multi-Chain Portfolio Orchestrator
 import { westend2Service } from './westend2.js';
 import { assetHubService } from './assetHub.js';
+import CollectivesService from './collectives.js';
+import CoretimeService from './coretime.js';
+import PeopleService from './people.js';
 import { CHAIN_CONFIG } from '../config/chains.js';
+
+// Initialize new services
+const collectivesService = new CollectivesService();
+const coretimeService = new CoretimeService();
+const peopleService = new PeopleService();
 
 /**
  * Multi-Chain Portfolio Service
@@ -11,8 +19,10 @@ export class MultiChainPortfolio {
   constructor() {
     this.chains = {
       westend2: westend2Service,
-      westend2_asset_hub: assetHubService
-      // Bridge Hub and People Chain can be added later
+      westend2_asset_hub: assetHubService,
+      westend2_collectives: collectivesService,
+      westend2_coretime: coretimeService,
+      westend2_people: peopleService
     };
   }
 
