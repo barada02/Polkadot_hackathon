@@ -1,6 +1,6 @@
 import { createClient } from "polkadot-api";
 import { getWsProvider } from "polkadot-api/ws-provider/web";
-import { westend2_coretime } from "polkadot-api/descriptors";
+import { westend2_coretime } from "@polkadot-api/descriptors";
 import { CHAIN_CONFIG } from "../config/chains.js";
 
 class CoretimeService {
@@ -23,7 +23,7 @@ class CoretimeService {
     }
   }
 
-  async analyzePortfolio(address, timeout = 15000) {
+  async getAccountPortfolio(address, timeout = 15000) {
     const startTime = Date.now();
     
     try {
