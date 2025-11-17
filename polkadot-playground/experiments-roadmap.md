@@ -304,16 +304,23 @@ Timestamp: 17/11/2025, 10:26:16 am
 
 ## 📚 **Documentation Research Progress**
 
-### **PAPI Documentation Review**
+### **PAPI Documentation Review - Phase 1 ✅ COMPLETED**
 - ✅ **CLI&Codegen.md** - Multi-chain descriptor generation patterns
 - ✅ **Types.md** - Descriptor type system and chain-specific exports  
 - ✅ **Provider.md** - Core provider architecture (WS, Smoldot, Enhancers)
 - ✅ **Provider-Websocket.md** - WebSocket provider patterns and multi-endpoint support
 - ✅ **Provider-smoldot.md** - Light client patterns and parachain connections
 - ✅ **Provider-enhancer.md** - Compatibility layers and SDK version support
-- ⏳ **Client.md** - Advanced client patterns (not yet reviewed)
-- ⏳ **TypedAPI.md** - Advanced TypedAPI patterns (not yet reviewed)
-- ⏳ **Signers.md** - Transaction signing patterns (not yet reviewed)
+- ✅ **Signer.md** - Core signer architecture (Extension, Raw, Interface)
+- ✅ **Signer-PolkadotSigner.md** - PolkadotSigner interface specification
+- ✅ **Signer-browserExtension.md** - Browser wallet integration patterns
+- ✅ **Signer-rawSigner.md** - Cryptographic signer implementations
+- 📄 **PAPI-Documentation-Analysis.md** - Comprehensive summary created!
+
+### **PAPI Documentation Review - Phase 2 (Future)**
+- ⏳ **Client.md** - Advanced client patterns (review when needed)
+- ⏳ **TypedAPI.md** - Advanced TypedAPI patterns (review when needed)
+- ⏳ **UnsafeAPI.md** - Low-level API patterns (review when needed)
 
 ### **Key Provider Patterns Discovered**
 
@@ -358,11 +365,40 @@ const client = createClient(
 )
 ```
 
+#### **Signer Integration Patterns**
+```typescript
+// Browser Extension Detection & Connection
+import { getInjectedExtensions, connectInjectedExtension } from "polkadot-api/pjs-signer"
+
+const extensions = getInjectedExtensions()
+const extension = await connectInjectedExtension(extensions[0])
+const accounts = extension.getAccounts()
+const signer = accounts[0].polkadotSigner
+
+// Raw Signer for Development (Alice/Bob/Charlie)
+import { getPolkadotSigner } from "polkadot-api/signer"
+import { sr25519CreateDerive } from "@polkadot-labs/hdkd"
+import { DEV_PHRASE, entropyToMiniSecret, mnemonicToEntropy } from "@polkadot-labs/hdkd-helpers"
+
+const miniSecret = entropyToMiniSecret(mnemonicToEntropy(DEV_PHRASE))
+const derive = sr25519CreateDerive(miniSecret)
+const aliceKeyPair = derive("//Alice")
+const aliceSigner = getPolkadotSigner(aliceKeyPair.publicKey, "Sr25519", aliceKeyPair.sign)
+```
+
+#### **PolkadotSigner Interface Features**
+- **signTx()**: Signs complete transactions with metadata and extensions
+- **signBytes()**: Signs arbitrary payloads with restrictions
+- **publicKey**: Account identifier (AccountId32 or AccountId20)
+- **Multi-Chain Support**: Same signer works across different chains
+- **Extension Integration**: Seamless wallet connectivity with account management
+
 ### **Multi-Chain Implementation Strategy**
 1. **Approach A**: Multiple WS Providers - Separate providers for each chain
 2. **Approach B**: Smoldot Light Client - Single instance managing relay + parachains  
 3. **Approach C**: Hybrid - WS for relay, Smoldot for parachains
 4. **Descriptor Coordination**: Chain-specific types per provider (`WestendQueries`, `AssetHubQueries`)
+5. **Signer Strategy**: Single signer instance works across all chains (same account on multiple networks)
 
 ---
 
