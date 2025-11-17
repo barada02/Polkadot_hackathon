@@ -36,12 +36,12 @@ const PROVIDER_CONFIG = {
       "wss://westend-rpc.dwellir.com"
     ]
   },
-  westend_ibp: {
-    name: "Westend (IBP)",
+  westend_dwellir: {
+    name: "Westend (Dwellir Global)",
     icon: "🌐", 
     endpoints: [
-      "wss://rpc.ibp.network/westend",
-      "wss://westend.dotters.network"
+      "wss://westend-rpc.dwellir.com",
+      "wss://westend-rpc-tn.dwellir.com"
     ]
   },
   westend_onfinality: {
@@ -49,7 +49,7 @@ const PROVIDER_CONFIG = {
     icon: "🚀",
     endpoints: [
       "wss://westend.api.onfinality.io/public-ws",
-      "wss://westend-rpc-tn.dwellir.com"
+      "wss://westend-rpc.polkadot.io"
     ]
   }
 }

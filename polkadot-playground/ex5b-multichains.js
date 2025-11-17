@@ -51,15 +51,19 @@ const CHAIN_CONFIG = {
   }
 }
 
-// Cross-chain test accounts
+// Cross-chain test accounts (using addresses that work on Westend)
 const CROSS_CHAIN_ACCOUNTS = [
   {
-    name: "Alice",
-    address: "5GrwvaEF5C4teLQWen6qnGrfPjNiFj4VGVcCz6e6BQaTsnfh"
+    name: "Alice (Westend)",
+    address: "5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY"  // Westend Alice
   },
   {
     name: "Bob",
-    address: "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty"  
+    address: "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty"  // Working Bob
+  },
+  {
+    name: "Charlie",
+    address: "5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y"  // Test Charlie
   }
 ]
 
