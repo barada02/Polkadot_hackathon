@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import chainsRoutes from './src/routes/chains.js';
 import polkadotRoutes from './src/routes/polkadot.js';
+import portfolioRoutes from './src/routes/portfolio.js';
 
 // Load environment variables
 dotenv.config();
@@ -44,7 +45,10 @@ app.get('/api/v1', (req, res) => {
       'GET /api/v1/chains/:chainId - Get chain information',
       'POST /api/v1/polkadot/test-connection - Test real Polkadot connection',
       'GET /api/v1/polkadot/connection-status - Get real connection status',
-      'POST /api/v1/polkadot/cleanup - Cleanup connections'
+      'POST /api/v1/polkadot/cleanup - Cleanup connections',
+      'POST /api/v1/portfolio/analyze - Analyze address portfolio (MAIN FRONTEND ENDPOINT)',
+      'POST /api/v1/portfolio/validate-address - Validate address format',
+      'GET /api/v1/portfolio/test-addresses - Get test addresses for development'
     ]
   });
 });
@@ -52,6 +56,7 @@ app.get('/api/v1', (req, res) => {
 // Route handlers
 app.use('/api/v1/chains', chainsRoutes);
 app.use('/api/v1/polkadot', polkadotRoutes);
+app.use('/api/v1/portfolio', portfolioRoutes);
 
 // 404 handler
 app.use('*', (req, res) => {
@@ -78,4 +83,5 @@ app.listen(PORT, () => {
   console.log(`💡 Health check: http://localhost:${PORT}/health`);
   console.log(`⛓️  Chains API: http://localhost:${PORT}/api/v1/chains`);
   console.log(`🔗 Polkadot API: http://localhost:${PORT}/api/v1/polkadot`);
+  console.log(`📊 Portfolio API: http://localhost:${PORT}/api/v1/portfolio`);
 });
