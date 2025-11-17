@@ -156,7 +156,81 @@ Enhanced batch processing and data aggregation...
 - ✅ Establish production-ready subscription patterns for React
 **Learning**: PAPI observables, subscription lifecycle, reactive programming, real-time blockchain data
 
+#### Result:
+```
+(base) PS C:\Users\barad\OneDrive\Desktop\Hackathon\Polkadot\polkadot-playground> node ex4-realtime.js
+🚀 Starting Real-time Portfolio Monitor...
+This experiment will run continuously until you press Ctrl+C
+🚀 Experiment 4: Real-time Portfolio Monitor!
+Setting up live subscriptions for balance changes...
+✅ Connected to Westend testnet
+✅ Generated typed API loaded!
 
+📊 Initializing Portfolio State...
+============================================================
+✅ Alice: 199.549314 WND (Nonce: 892)
+✅ Bob: 0.273390 WND (Nonce: 8)
+✅ Charlie: 0.000000 WND (Nonce: 0)
+
+🔴 Starting Real-time Subscriptions...
+============================================================
+📦 Subscribing to finalized blocks...
+📦 [10:25:16 am] New finalized block #28525815 | Hash: 0xcd36a84e...
+✅ Monitoring 3 accounts for balance changes
+✅ Checking balances every 3 blocks
+✅ Real-time block updates active
+
+⏰ Real-time monitoring active...
+   • Block updates will appear as they're finalized
+   • Balance changes will be detected automatically
+   • Portfolio summaries every 30 seconds
+   • Press Ctrl+C to stop monitoring
+📦 [10:25:16 am] New finalized block #28525816 | Hash: 0xe53a9da3...
+📦 [10:25:20 am] New finalized block #28525817 | Hash: 0x05530fdb...
+📦 [10:25:28 am] New finalized block #28525818 | Hash: 0x938c8644...
+📦 [10:25:32 am] New finalized block #28525819 | Hash: 0xb0d9d0b2...
+📦 [10:25:40 am] New finalized block #28525820 | Hash: 0xda97d618...
+📦 [10:25:44 am] New finalized block #28525821 | Hash: 0x75096f7d...
+
+📊 Portfolio Status Summary:
+--------------------------------------------------
+Alice: 199.549314 WND | Changes: 0 | Updated: 30s ago
+Bob: 0.273390 WND | Changes: 0 | Updated: 30s ago
+Charlie: 0.000000 WND | Changes: 0 | Updated: 30s ago
+--------------------------------------------------
+Total Portfolio: 199.822704 WND
+Timestamp: 17/11/2025, 10:25:46 am
+📦 [10:25:52 am] New finalized block #28525822 | Hash: 0x65d58b59...
+📦 [10:25:56 am] New finalized block #28525823 | Hash: 0x4e14c6a3...
+📦 [10:26:04 am] New finalized block #28525824 | Hash: 0x21cd483a...
+📦 [10:26:08 am] New finalized block #28525825 | Hash: 0x4b602164...
+📦 [10:26:16 am] New finalized block #28525826 | Hash: 0xd9a01ac8...
+
+📊 Portfolio Status Summary:
+--------------------------------------------------
+Alice: 199.549314 WND | Changes: 0 | Updated: 60s ago
+Bob: 0.273390 WND | Changes: 0 | Updated: 60s ago
+Charlie: 0.000000 WND | Changes: 0 | Updated: 60s ago
+--------------------------------------------------
+Total Portfolio: 199.822704 WND
+Timestamp: 17/11/2025, 10:26:16 am
+📦 [10:26:20 am] New finalized block #28525827 | Hash: 0xe303060c...
+
+
+🛑 Shutting down real-time monitoring...
+✅ All subscriptions closed
+📊 Final Portfolio State:
+   Alice: 199.549314 WND (0 changes detected)
+   Bob: 0.273390 WND (0 changes detected)
+   Charlie: 0.000000 WND (0 changes detected)
+🧹 Connection cleaned up
+
+🎉 Experiment 4 completed successfully!
+✅ Real-time subscription patterns established
+✅ Live balance monitoring working
+✅ Reactive state management ready
+✅ Perfect foundation for React integration
+```
 #### **📊 Experiment 4 Results & Summary**
 **Execution Date**: November 17, 2025 | **Duration**: ~1 minute | **Success Rate**: 100%
 
