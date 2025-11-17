@@ -104,12 +104,6 @@ export const Header = ({ currentPage, currentAddress, onNavigate, onBackToLandin
         >
           📈 Network
         </button>
-        <button 
-          style={getButtonStyle(currentPage === 'demo')}
-          onClick={() => onNavigate('demo')}
-        >
-          🎪 Demo
-        </button>
       </nav>
       
       <div style={{ display: 'flex', gap: '6px' }}>

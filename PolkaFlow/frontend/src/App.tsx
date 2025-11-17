@@ -6,12 +6,11 @@ import { DashboardPage } from './pages/DashboardPage';
 import { FeeAnalyzerPage } from './pages/FeeAnalyzerPage';
 import { OptimizerPage } from './pages/OptimizerPage';
 import { NetworkMonitorPage } from './pages/NetworkMonitorPage';
-import { DemoPage } from './pages/DemoPage';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
 import { NotificationArea } from './components/common/NotificationArea';
 
 // Navigation types for main app
-export type PageType = 'dashboard' | 'fees' | 'optimizer' | 'network' | 'demo';
+export type PageType = 'dashboard' | 'fees' | 'optimizer' | 'network';
 
 function App() {
   const [isInMainApp, setIsInMainApp] = useState(false);
@@ -61,7 +60,6 @@ function App() {
           {currentPage === 'fees' && <FeeAnalyzerPage address={currentAddress} onNavigate={navigate} />}
           {currentPage === 'optimizer' && <OptimizerPage address={currentAddress} onNavigate={navigate} />}
           {currentPage === 'network' && <NetworkMonitorPage onNavigate={navigate} />}
-          {currentPage === 'demo' && <DemoPage onEnterApp={enterMainApp} />}
         </main>
         
         <NotificationArea />
