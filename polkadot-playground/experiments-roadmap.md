@@ -18,26 +18,66 @@
 
 ---
 
-### 🔄 **Experiment 2: "Show Me Balances"** (IN PROGRESS)
+### ✅ **Experiment 2: "Show Me Balances"** (COMPLETED)
 **File**: `ex2-balances.js`  
 **Goal**: Query account balances from blockchain  
 **What it does**:
-- Connect to Polkadot network
-- Query specific account balance
-- Format balance from Planck to DOT
-- Handle different account formats
-**Learning**: Account queries, balance formatting, error handling
+- ✅ Connect to Westend network with generated descriptors
+- ✅ Query specific account balances (Alice: 199.55 WND, Bob: 0.27 WND)
+- ✅ Format balance from Planck to WND (12 decimals)
+- ✅ Handle TypedAPI with .getValue() method
+- ✅ Get current block number (#28,525,561)
+**Learning**: Generated descriptors, TypedAPI, SDK compatibility layer, storage queries
 
 ---
 
-### 📋 **Experiment 3: "Multiple Accounts"** (PLANNED)
+### ✅ **Experiment 3: "Multiple Accounts"** (COMPLETED)
 **File**: `ex3-multi-accounts.js`  
-**Goal**: Query multiple accounts and compare balances  
+**Goal**: Enhanced account management and batch processing  
 **What it does**:
-- Query balances for multiple accounts
-- Display formatted results in table
-- Calculate total holdings
-**Learning**: Batch queries, data formatting, array operations
+- ✅ Query balances for account portfolios (Team: 199.82 WND, Additional: 0 WND)
+- ✅ Display formatted results in professional console tables
+- ✅ Calculate portfolio totals, averages, and statistics (100% success rate)
+- ✅ Handle batch errors gracefully (6/6 accounts successful)
+- ✅ Create reusable utilities (formatAddress, formatWND)
+- ✅ Ready for React integration and real-time updates
+**Learning**: Portfolio management, data aggregation, professional formatting, production patterns
+
+#### **📊 Experiment 3 Results & Summary**
+**Execution Date**: November 17, 2025 | **Block**: #28,525,664 | **Success Rate**: 100%
+
+**Portfolio Analysis Results:**
+```
+🏆 OVERALL PORTFOLIO ANALYSIS
+======================================================================
+📁 Team Accounts: 199.822704 WND (3/3 accounts)
+   • Alice: 199.549314 WND (Nonce: 892) - Primary active account
+   • Bob: 0.273390 WND (Nonce: 8) - Secondary account  
+   • Charlie: 0.000000 WND (Nonce: 0) - Empty account
+📁 Additional Test Accounts: 0.000000 WND (3/3 accounts)
+   • Dave, Eve, Ferdie: All empty accounts (Nonce: 0)
+----------------------------------------------------------------------
+🎯 GRAND TOTAL: 199.822704 WND across 6 accounts
+📊 Overall Success: 6/6 accounts (100% query success rate)
+💎 Largest Portfolio: Team Accounts (199.82 WND)
+```
+
+**Key Achievements:**
+- **Production-ready portfolio management system** with batch processing capabilities
+- **Professional data presentation** with aligned console tables and statistics
+- **Robust error handling** ensuring graceful degradation for failed queries
+- **Reusable utility functions** ready for React component integration
+- **Comprehensive data aggregation** including totals, averages, and success rates
+- **Scalable architecture** supporting multiple portfolio categories
+
+**Technical Patterns Established:**
+1. **Batch account querying** with concurrent PAPI calls
+2. **Portfolio organization** grouping accounts by logical categories  
+3. **Data transformation** from raw blockchain data to formatted displays
+4. **Statistics calculation** providing meaningful portfolio insights
+5. **Error resilience** maintaining functionality even with partial failures
+
+**Ready for Integration:** This experiment produces data structures and patterns directly applicable to the hackathon project's cross-chain identity dashboard, providing the foundation for multi-account portfolio tracking across parachains.
 
 ---
 
