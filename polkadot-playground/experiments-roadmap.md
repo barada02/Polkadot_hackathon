@@ -302,6 +302,70 @@ Timestamp: 17/11/2025, 10:26:16 am
 
 ---
 
+## 📚 **Documentation Research Progress**
+
+### **PAPI Documentation Review**
+- ✅ **CLI&Codegen.md** - Multi-chain descriptor generation patterns
+- ✅ **Types.md** - Descriptor type system and chain-specific exports  
+- ✅ **Provider.md** - Core provider architecture (WS, Smoldot, Enhancers)
+- ✅ **Provider-Websocket.md** - WebSocket provider patterns and multi-endpoint support
+- ✅ **Provider-smoldot.md** - Light client patterns and parachain connections
+- ✅ **Provider-enhancer.md** - Compatibility layers and SDK version support
+- ⏳ **Client.md** - Advanced client patterns (not yet reviewed)
+- ⏳ **TypedAPI.md** - Advanced TypedAPI patterns (not yet reviewed)
+- ⏳ **Signers.md** - Transaction signing patterns (not yet reviewed)
+
+### **Key Provider Patterns Discovered**
+
+#### **Multi-Endpoint WebSocket Patterns**
+```typescript
+// Fallback endpoints for reliability
+const provider = getWsProvider([
+  "wss://westend-rpc.polkadot.io", 
+  "wss://westend-rpc.dwellir.com"
+])
+
+// Connection monitoring and switching
+provider.onStatusChanged((status) => {
+  console.log(`Status: ${status.type}`)
+})
+```
+
+#### **Smoldot Light Client Multi-Chain**
+```typescript  
+// Relay chain first
+const relayChain = smoldot.addChain({ chainSpec: westend })
+
+// Then parachain with dependency
+const assetHubChain = smoldot.addChain({
+  chainSpec: westend_asset_hub,
+  potentialRelayChains: [relayChain],
+})
+```
+
+#### **Provider Enhancement Patterns**
+```typescript
+// SDK compatibility for older nodes
+const client = createClient(
+  withPolkadotSdkCompat(getWsProvider("wss://endpoint"))
+)
+
+// Legacy provider for very old nodes  
+const client = createClient(
+  getWsProvider("wss://endpoint", {
+    innerEnhancer: withLegacy(),
+  })
+)
+```
+
+### **Multi-Chain Implementation Strategy**
+1. **Approach A**: Multiple WS Providers - Separate providers for each chain
+2. **Approach B**: Smoldot Light Client - Single instance managing relay + parachains  
+3. **Approach C**: Hybrid - WS for relay, Smoldot for parachains
+4. **Descriptor Coordination**: Chain-specific types per provider (`WestendQueries`, `AssetHubQueries`)
+
+---
+
 ## 🎯 **Key Learning Objectives**
 
 ### **Technical Skills**:
