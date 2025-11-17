@@ -47,11 +47,11 @@
    - **Result**: 6/6 chains connected (Relay, Asset Hub, Bridge Hub, Collectives, Coretime, People Chain)
 
 8. **ex6-fees.js** - Multi-Chain Fee Comparison
-   - ✅ Fee estimation across multiple parachains
-   - ✅ Transaction cost analysis and comparison
-   - ✅ Real-time fee monitoring and stability analysis
-   - ✅ Optimal chain recommendation based on costs
-   - **Result**: Cost optimization with up to 24.8% savings by choosing optimal chains
+   - ✅ Fee estimation across 4 Westend ecosystem chains
+   - ✅ Transaction cost analysis revealing 36% potential savings  
+   - ✅ Real-time fee monitoring with perfect stability detection
+   - ✅ Optimal chain recommendation (Asset Hub 9x cheaper than Relay)
+   - **Result**: Asset Hub saves users 89% vs Westend Relay (0.001794 vs 0.016227 WND)
 
 ## 🏗️ **Architecture Patterns Established**
 
