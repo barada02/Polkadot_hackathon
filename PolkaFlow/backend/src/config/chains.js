@@ -47,6 +47,30 @@ export const CHAIN_CONFIG = {
     decimals: 12,
     priority: 2,
     description: "Identity and reputation management"
+  },
+  westend2_collectives: {
+    id: "westend2_collectives",
+    name: "Collectives",
+    icon: "🏛️",
+    type: "system_parachain",
+    wsEndpoint: "wss://westend-collectives-rpc.polkadot.io",
+    descriptorName: "westend2_collectives",
+    tokenSymbol: "WND",
+    decimals: 12,
+    priority: 1,
+    description: "Governance collectives and fellowship operations"
+  },
+  westend2_coretime: {
+    id: "westend2_coretime",
+    name: "Coretime",
+    icon: "⏰",
+    type: "system_parachain",
+    wsEndpoint: "wss://westend-coretime-rpc.polkadot.io",
+    descriptorName: "westend2_coretime",
+    tokenSymbol: "WND",
+    decimals: 12,
+    priority: 2,
+    description: "Coretime allocation and management for parachains"
   }
 };
 
