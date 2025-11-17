@@ -25,144 +25,200 @@ export const LandingPage = ({ onEnterApp }: LandingPageProps) => {
   const handleDemoAccount = (address: string) => {
     onEnterApp(address, 'dashboard');
   };
+
   return (
-    <div style={{ textAlign: 'center', padding: '40px 20px' }}>
-      <h1 style={{ 
-        fontSize: '3rem', 
-        marginBottom: '16px',
-        background: 'linear-gradient(45deg, var(--primary-color), var(--secondary-color))',
-        backgroundClip: 'text',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent'
-      }}>
-        PolkaFlow
-      </h1>
-      
-      <h2 style={{ 
-        fontSize: '1.5rem', 
-        marginBottom: '32px',
-        color: 'var(--text-secondary)'
-      }}>
-        Intelligent Multi-Chain Polkadot Gateway
-      </h2>
-      
-      <div style={{
-        backgroundColor: 'var(--surface)',
-        padding: '32px',
-        borderRadius: '12px',
-        marginBottom: '32px',
-        border: '1px solid var(--border)',
-        maxWidth: '600px',
-        margin: '0 auto 32px auto'
-      }}>
-        <h3 style={{ 
-          fontSize: '2rem', 
-          marginBottom: '16px',
-          color: 'var(--success-color)'
-        }}>
-          🎯 Save up to 88.94% on transaction fees
-        </h3>
-        <p style={{ fontSize: '1.25rem', marginBottom: '32px' }}>
-          with intelligent multi-chain optimization across 6 Westend chains
-        </p>
-        
-        {/* Address Input Section */}
-        <div style={{ marginBottom: '24px' }}>
-          <label style={{
-            display: 'block',
+    <div style={{ 
+      minHeight: '100vh', 
+      backgroundColor: 'var(--background)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '20px'
+    }}>
+      <div style={{ maxWidth: '500px', width: '100%' }}>
+        {/* Header Section */}
+        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+          <h1 style={{ 
+            fontSize: '2.5rem', 
+            fontWeight: '600',
             marginBottom: '8px',
-            fontWeight: '500',
-            color: 'var(--text)'
+            color: 'var(--primary-color)',
+            letterSpacing: '-0.025em'
           }}>
-            Enter Polkadot Address:
-          </label>
-          <div style={{ display: 'flex', gap: '12px' }}>
+            PolkaFlow
+          </h1>
+          
+          <p style={{ 
+            fontSize: '1rem', 
+            color: 'var(--text-secondary)',
+            marginBottom: '12px'
+          }}>
+            Intelligent Multi-Chain Polkadot Gateway
+          </p>
+          
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+            color: 'var(--success-color)',
+            padding: '6px 12px',
+            borderRadius: '20px',
+            fontSize: '0.875rem',
+            fontWeight: '500'
+          }}>
+            🎯 Save up to 88.94% on fees
+          </div>
+        </div>
+
+        {/* Address Input Card */}
+        <div className="card" style={{ marginBottom: '32px' }}>
+          <h3 style={{ 
+            fontSize: '1.25rem',
+            fontWeight: '600',
+            color: 'var(--text)',
+            marginBottom: '16px',
+            textAlign: 'center'
+          }}>
+            Enter Polkadot Address
+          </h3>
+          
+          <div style={{ marginBottom: '16px' }}>
             <input
               type="text"
               value={addressInput}
               onChange={(e) => setAddressInput(e.target.value)}
               placeholder="5GrwvaEF5zXb26Fz9rcQpnWsgn7PGrtnYnxBVMn2efMv..."
               style={{
-                flex: 1,
+                width: '100%',
                 padding: '12px 16px',
-                border: '2px solid var(--border)',
+                border: '1px solid var(--border)',
                 borderRadius: '8px',
-                fontSize: '1rem',
+                fontSize: '0.875rem',
                 backgroundColor: 'var(--background)',
-                color: 'var(--text)'
+                color: 'var(--text)',
+                fontFamily: 'monospace'
               }}
               onKeyPress={(e) => e.key === 'Enter' && handleAddressSubmit()}
             />
-            <button 
-              onClick={handleAddressSubmit}
-              disabled={!addressInput.trim() || isValidating}
-              style={{
-                padding: '12px 24px',
-                fontSize: '1rem',
-                backgroundColor: 'var(--primary-color)',
-                color: 'white',
-                border: 'none',
-                borderRadius: '8px',
-                cursor: addressInput.trim() ? 'pointer' : 'not-allowed',
-                opacity: addressInput.trim() ? 1 : 0.5,
-                minWidth: '120px'
-              }}
-            >
-              {isValidating ? '🔍 Checking...' : '📊 Analyze'}
-            </button>
           </div>
+          
+          <button 
+            onClick={handleAddressSubmit}
+            disabled={!addressInput.trim() || isValidating}
+            style={{
+              width: '100%',
+              padding: '12px',
+              fontSize: '0.875rem',
+              fontWeight: '500',
+              backgroundColor: addressInput.trim() ? 'var(--primary-color)' : 'var(--text-muted)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '6px',
+              cursor: addressInput.trim() ? 'pointer' : 'not-allowed'
+            }}
+          >
+            {isValidating ? 'Validating...' : 'Analyze Portfolio'}
+          </button>
         </div>
-        
+
+        {/* Divider */}
         <div style={{
           textAlign: 'center',
-          color: 'var(--text-secondary)',
-          margin: '16px 0',
-          fontSize: '0.875rem'
+          color: 'var(--text-muted)',
+          margin: '24px 0',
+          fontSize: '0.875rem',
+          position: 'relative'
         }}>
-          OR
+          <div style={{
+            position: 'absolute',
+            top: '50%',
+            left: 0,
+            right: 0,
+            height: '1px',
+            backgroundColor: 'var(--border-light)'
+          }}></div>
+          <span style={{
+            backgroundColor: 'var(--background)',
+            padding: '0 16px'
+          }}>
+            OR TRY DEMO
+          </span>
+        </div>
+
+        {/* Demo Accounts */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+          gap: '12px'
+        }}>
+          <button 
+            className="card card-compact"
+            onClick={() => handleDemoAccount('5GrwvaEF5zXb26Fz9rcQpnWsgn7PGrtnYnxBVMn2efMvRgjT')}
+            style={{
+              backgroundColor: 'var(--surface)',
+              border: '1px solid var(--border-light)',
+              borderRadius: '8px',
+              padding: '16px 12px',
+              cursor: 'pointer',
+              textAlign: 'center',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            <div style={{ fontSize: '1.5rem', marginBottom: '4px' }}>👩‍💼</div>
+            <div style={{ fontWeight: '500', fontSize: '0.875rem', color: 'var(--text)' }}>Alice</div>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Multi-chain</div>
+          </button>
+          
+          <button 
+            className="card card-compact"
+            onClick={() => handleDemoAccount('5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty')}
+            style={{
+              backgroundColor: 'var(--surface)',
+              border: '1px solid var(--border-light)',
+              borderRadius: '8px',
+              padding: '16px 12px',
+              cursor: 'pointer',
+              textAlign: 'center',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            <div style={{ fontSize: '1.5rem', marginBottom: '4px' }}>👨‍💻</div>
+            <div style={{ fontWeight: '500', fontSize: '0.875rem', color: 'var(--text)' }}>Bob</div>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>High fees</div>
+          </button>
+          
+          <button 
+            className="card card-compact"
+            onClick={() => handleDemoAccount('5FLSigC9HGRKVhB9FiEo4Y3koPFNTsXN4hdKD6gsfV4bfz9C')}
+            style={{
+              backgroundColor: 'var(--surface)',
+              border: '1px solid var(--border-light)',
+              borderRadius: '8px',
+              padding: '16px 12px',
+              cursor: 'pointer',
+              textAlign: 'center',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            <div style={{ fontSize: '1.5rem', marginBottom: '4px' }}>👨‍🔬</div>
+            <div style={{ fontWeight: '500', fontSize: '0.875rem', color: 'var(--text)' }}>Charlie</div>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Optimized</div>
+          </button>
+        </div>
+
+        {/* Status */}
+        <div style={{ 
+          textAlign: 'center', 
+          marginTop: '32px',
+          padding: '12px',
+          backgroundColor: 'var(--surface)',
+          borderRadius: '6px',
+          fontSize: '0.75rem',
+          color: 'var(--text-muted)'
+        }}>
+          ✅ 15 APIs Ready • 🔗 6 Chains Connected • ⚡ 5-7s Response
         </div>
       </div>
-      
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-        gap: '24px',
-        marginBottom: '32px'
-      }}>
-        <div style={{
-          backgroundColor: 'var(--surface)',
-          padding: '24px',
-          borderRadius: '8px',
-          border: '1px solid var(--border)'
-        }}>
-          <h4 style={{ marginBottom: '12px' }}>✅ 6-Chain Support</h4>
-          <p>Complete Westend ecosystem integration with real-time monitoring</p>
-        </div>
-        
-        <div style={{
-          backgroundColor: 'var(--surface)',
-          padding: '24px',
-          borderRadius: '8px',
-          border: '1px solid var(--border)'
-        }}>
-          <h4 style={{ marginBottom: '12px' }}>✅ Smart Optimization</h4>
-          <p>AI-powered chain selection with proven 88.94% cost savings</p>
-        </div>
-        
-        <div style={{
-          backgroundColor: 'var(--surface)',
-          padding: '24px',
-          borderRadius: '8px',
-          border: '1px solid var(--border)'
-        }}>
-          <h4 style={{ marginBottom: '12px' }}>✅ Real-Time Data</h4>
-          <p>Live fee comparison and network health monitoring</p>
-        </div>
-      </div>
-      
-      <p style={{ color: 'var(--text-secondary)' }}>
-        Backend Status: ✅ 15 APIs Ready | 🔗 6 Chains Connected | ⚡ 5-7s Response Time
-      </p>
     </div>
   );
 };

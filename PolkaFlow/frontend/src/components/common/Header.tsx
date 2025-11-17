@@ -12,42 +12,43 @@ export const Header = ({ currentPage, currentAddress, onNavigate, onBackToLandin
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: '16px 24px',
-    backgroundColor: 'var(--surface)',
-    borderBottom: '1px solid var(--border)',
-    boxShadow: '0 2px 4px var(--shadow)'
+    padding: '12px 24px',
+    backgroundColor: 'var(--background)',
+    borderBottom: '1px solid var(--border-light)',
+    boxShadow: '0 1px 3px var(--shadow)'
   };
 
   const logoStyle = {
-    fontSize: '1.5rem',
-    fontWeight: '700',
+    fontSize: '1.375rem',
+    fontWeight: '600',
     color: 'var(--primary-color)',
     cursor: 'pointer',
-    margin: 0
+    margin: 0,
+    letterSpacing: '-0.025em'
   };
 
   const taglineStyle = {
-    fontSize: '0.875rem',
+    fontSize: '0.75rem',
     color: 'var(--success-color)',
     fontWeight: '500',
-    backgroundColor: 'rgba(0, 212, 170, 0.1)',
-    padding: '4px 8px',
+    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+    padding: '2px 6px',
     borderRadius: '4px',
-    marginLeft: '12px'
+    marginLeft: '8px'
   };
 
   const navStyle = {
     display: 'flex',
-    gap: '8px'
+    gap: '4px'
   };
 
   const getButtonStyle = (isActive: boolean) => ({
-    padding: '8px 16px',
+    padding: '6px 12px',
     borderRadius: '6px',
     border: 'none',
     backgroundColor: isActive ? 'var(--primary-color)' : 'transparent',
     color: isActive ? 'white' : 'var(--text-secondary)',
-    fontSize: '0.875rem',
+    fontSize: '0.8125rem',
     fontWeight: '500',
     cursor: 'pointer',
     transition: 'all 0.2s ease',
@@ -65,14 +66,16 @@ export const Header = ({ currentPage, currentAddress, onNavigate, onBackToLandin
         </h1>
         <span style={taglineStyle}>Save 88.94% on fees</span>
         <div style={{
-          marginLeft: '16px',
+          marginLeft: '12px',
           padding: '4px 8px',
-          backgroundColor: 'rgba(230, 0, 122, 0.1)',
+          backgroundColor: 'var(--surface)',
+          border: '1px solid var(--border-light)',
           borderRadius: '4px',
           fontSize: '0.75rem',
-          color: 'var(--primary-color)'
+          color: 'var(--text-secondary)',
+          fontFamily: 'monospace'
         }}>
-          {currentAddress ? `${currentAddress.slice(0, 8)}...${currentAddress.slice(-6)}` : 'No Address'}
+          {currentAddress ? `${currentAddress.slice(0, 6)}...${currentAddress.slice(-4)}` : 'No Address'}
         </div>
       </div>
       
@@ -109,34 +112,33 @@ export const Header = ({ currentPage, currentAddress, onNavigate, onBackToLandin
         </button>
       </nav>
       
-      <div style={{ display: 'flex', gap: '8px' }}>
+      <div style={{ display: 'flex', gap: '6px' }}>
         <button 
+          className="btn-outline"
           style={{
-            padding: '8px 16px',
-            borderRadius: '6px',
-            border: '1px solid var(--primary-color)',
+            padding: '6px 12px',
+            fontSize: '0.8125rem',
+            border: '1px solid var(--border)',
             backgroundColor: 'transparent',
-            color: 'var(--primary-color)',
-            fontSize: '0.875rem',
-            cursor: 'pointer'
+            color: 'var(--text-secondary)'
           }}
           onClick={onBackToLanding}
         >
-          🏠 New Address
+          New Address
         </button>
         <button 
           style={{
-            padding: '8px 16px',
+            padding: '6px 12px',
             borderRadius: '6px',
-            border: '1px solid var(--border)',
+            border: '1px solid var(--border-light)',
             backgroundColor: 'var(--surface)',
-            color: 'var(--text-secondary)',
-            fontSize: '0.875rem',
+            color: 'var(--text-muted)',
+            fontSize: '0.8125rem',
             cursor: 'not-allowed'
           }}
           disabled
         >
-          🔗 Connect Wallet (Soon)
+          Connect Wallet
         </button>
       </div>
     </header>
