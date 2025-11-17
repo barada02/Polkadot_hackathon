@@ -30,3 +30,7 @@ const metadataV15 = await typedApi.apis.Metadata.metadata_at_version(15, {
   at: "best",
 })
 ```
+
+# View Functions
+
+View functions are particular Runtime APIs linked to pallets. Therefore, their API is exactly the same as any runtime API. They are found under `typedApi.view`. See above runtime api for usage notes.
