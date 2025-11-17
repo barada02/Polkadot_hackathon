@@ -43,6 +43,70 @@
 - ✅ Ready for React integration and real-time updates
 **Learning**: Portfolio management, data aggregation, professional formatting, production patterns
 
+##### Result:
+```
+node ex3-multi-accounts.js
+🚀 Experiment 3: Multiple Account Portfolio Manager!
+Enhanced batch processing and data aggregation...
+✅ Connected to Westend testnet
+✅ Generated typed API loaded!
+📦 Current block: #28525664
+
+💼 Processing Portfolio: Team Accounts
+======================================================================
+🔍 Querying Alice: 5GrwvaEF...
+🔍 Querying Bob: 5FHneW46...
+🔍 Querying Charlie: 5FLSigC9...
+
+📊 Team Accounts - Portfolio Summary:
+----------------------------------------------------------------------
+✅ Active Alice      |   199.549314 WND | Nonce:  892 | 5GrwvaEF...oHGKutQY
+✅ Active Bob        |     0.273390 WND | Nonce:    8 | 5FHneW46...jJM694ty
+✅ Active Charlie    |     0.000000 WND | Nonce:    0 | 5FLSigC9...1hXcS59Y
+----------------------------------------------------------------------
+📈 Portfolio Total: 199.822704 WND
+📊 Success Rate: 3/3 accounts
+💰 Average Balance: 66.607568 WND
+
+💼 Processing Portfolio: Additional Test Accounts
+======================================================================
+🔍 Querying Dave: 5DAAnrj7...
+🔍 Querying Eve: 5HGjWAeF...
+🔍 Querying Ferdie: 5CiPPseX...
+
+📊 Additional Test Accounts - Portfolio Summary:
+----------------------------------------------------------------------
+✅ Active Dave       |     0.000000 WND | Nonce:    0 | 5DAAnrj7...um3PTXFy
+✅ Active Eve        |     0.000000 WND | Nonce:    0 | 5HGjWAeF...j68kUMaw
+✅ Active Ferdie     |     0.000000 WND | Nonce:    0 | 5CiPPseX...kmSK2DjL
+----------------------------------------------------------------------
+📈 Portfolio Total: 0.000000 WND
+📊 Success Rate: 3/3 accounts
+💰 Average Balance: 0.000000 WND
+
+🏆 OVERALL PORTFOLIO ANALYSIS
+======================================================================
+📁 Team Accounts: 199.822704 WND (3/3 accounts)
+📁 Additional Test Accounts: 0.000000 WND (3/3 accounts)
+----------------------------------------------------------------------
+🎯 GRAND TOTAL: 199.822704 WND
+📊 Overall Success: 6/6 accounts
+💎 Largest Portfolio: Team Accounts
+
+📦 Data Structure Ready for:
+✅ React component integration
+✅ Real-time subscription updates
+✅ Multi-chain aggregation
+✅ Portfolio tracking features
+
+🎉 Experiment 3 SUCCESS!
+✅ Batch account processing working
+✅ Portfolio management patterns established
+✅ Data aggregation and statistics ready
+✅ Error handling and resilience tested
+
+```
+
 #### **📊 Experiment 3 Results & Summary**
 **Execution Date**: November 17, 2025 | **Block**: #28,525,664 | **Success Rate**: 100%
 
