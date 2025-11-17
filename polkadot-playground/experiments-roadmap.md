@@ -331,14 +331,41 @@ Timestamp: 17/11/2025, 10:26:16 am
 
 ---
 
-### 💸 **Experiment 6: "Fee Comparison"** (PLANNED)
+### ✅ **Experiment 6: "Multi-Chain Fee Comparison"** (COMPLETED)
 **File**: `ex6-fees.js`  
-**Goal**: Compare transaction fees across parachains  
+**Goal**: Compare transaction fees across parachains for cost optimization
 **What it does**:
-- Estimate transfer fees on different chains
-- Compare costs for same operation
-- Recommend optimal chain
-**Learning**: Fee estimation, transaction simulation, cost analysis
+- ✅ Estimate transfer fees across multiple Westend parachains
+- ✅ Compare costs for identical operations (micro, standard, large transfers)
+- ✅ Real-time fee monitoring and stability analysis
+- ✅ Recommend optimal chain based on cost analysis
+- ✅ USD value estimation and savings calculation
+
+#### Fee Comparison Results:
+```
+💰 Multi-Chain Fee Comparison Analysis
+=====================================
+
+📊 Analyzing: Balance Transfer (1.000000 WND)
+──────────────────────────────────────────────────
+💎 Asset Hub       |     0.000100 WND | ~$0.0000 🥇 CHEAPEST
+🔗 Westend Relay   |     0.000133 WND | ~$0.0000 🥈 MORE EXPENSIVE  
+🌉 Bridge Hub      |     0.000100 WND | ~$0.0000
+👥 People Chain    |     0.000100 WND | ~$0.0000
+
+📊 Real-time Fee Monitoring (10 samples)
+📈 Fee Stability Analysis:
+💎 Asset Hub: STABLE fees, ±0.000000 WND variance
+🔗 Westend Relay: STABLE fees, ±0.000000 WND variance
+🌉 Bridge Hub: STABLE fees, ±0.000000 WND variance
+👥 People Chain: STABLE fees, ±0.000000 WND variance
+
+💡 Cost Analysis: Save 0.000033 WND (24.8%) by using cheapest chain
+```
+
+**Learning**: Fee estimation patterns, transaction simulation, cross-chain cost optimization, real-time fee monitoring, optimal chain selection algorithms
+
+**🎯 GATEWAY READY**: Enables intelligent chain selection based on transaction costs for optimal user experience!
 
 ---
 
@@ -366,8 +393,10 @@ Timestamp: 17/11/2025, 10:26:16 am
 
 **🎉 CORE EXPERIMENTS COMPLETE!** All foundational multi-chain patterns established!
 
-**Session 3**:
-- 💸 Experiment 6: Fee comparison
+**Session 3 (Completed)**:
+- ✅ Experiment 6: Fee comparison
+
+**Session 4 (Optional)**:
 - 🏥 Experiment 7: Network health
 
 ---
