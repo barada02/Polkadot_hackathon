@@ -36,11 +36,11 @@ class ApiService {
   }
 
   // Fee Analysis APIs
-  static async compareFees(fromChain, toChain, amount) {
+  static async compareFees(destinationAddress, amount) {
     const response = await fetch(`${API_BASE_URL}/fees/compare`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fromChain, toChain, amount })
+      body: JSON.stringify({ destinationAddress, amount })
     });
     if (!response.ok) throw new Error(`Fee comparison failed: ${response.statusText}`);
     return response.json();

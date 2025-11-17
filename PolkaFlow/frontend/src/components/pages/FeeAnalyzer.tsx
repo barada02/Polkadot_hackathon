@@ -12,9 +12,8 @@ function FeeAnalyzer({ address }: FeeAnalyzerProps) {
   const [supportedChains, setSupportedChains] = useState([]);
   const [testScenario, setTestScenario] = useState(null);
   const [formData, setFormData] = useState({
-    fromChain: '',
-    toChain: '',
-    amount: '1'
+    destinationAddress: '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY', // Default test address
+    amount: '1000000000000' // Default 1 DOT in planck units
   });
 
   useEffect(() => {
@@ -58,8 +57,8 @@ function FeeAnalyzer({ address }: FeeAnalyzerProps) {
   };
 
   const compareFees = async () => {
-    if (!formData.fromChain || !formData.toChain) {
-      setError('Please select both source and destination chains');
+    if (!formData.destinationAddress) {
+      setError('Please enter a destination address');
       return;
     }
 
@@ -67,9 +66,8 @@ function FeeAnalyzer({ address }: FeeAnalyzerProps) {
       setLoading(true);
       setError(null);
       const response = await ApiService.compareFees(
-        formData.fromChain,
-        formData.toChain,
-        parseFloat(formData.amount)
+        formData.destinationAddress,
+        formData.amount
       );
       console.log('Fee comparison response:', response); // Debug log
       
@@ -86,11 +84,17 @@ function FeeAnalyzer({ address }: FeeAnalyzerProps) {
 
   const formatFee = (fee) => {
     if (!fee) return 'N/A';
-    return `${parseFloat(fee).toFixed(6)} DOT`;
+    const feeValue = typeof fee === 'string' ? parseFloat(fee) : fee;
+    // Convert from smallest unit (planck) to token unit
+    const tokenValue = feeValue / Math.pow(10, 12); // 12 decimals for WND
+    return `${tokenValue.toFixed(8)} Raw`;
   };
 
   const formatPercentage = (percentage) => {
     if (!percentage) return '0%';
+    if (typeof percentage === 'string') {
+      return percentage; // Already formatted like "88.94%"
+    }
     return `${percentage.toFixed(2)}%`;
   };
 
@@ -110,48 +114,31 @@ function FeeAnalyzer({ address }: FeeAnalyzerProps) {
         <div className="fee-form">
           <div className="form-row">
             <div className="form-group">
-              <label>From Chain:</label>
-              <select 
-                name="fromChain" 
-                value={formData.fromChain} 
+              <label>Destination Address:</label>
+              <input
+                type="text"
+                name="destinationAddress"
+                value={formData.destinationAddress}
                 onChange={handleInputChange}
-                className="form-select"
-              >
-                <option value="">Select source chain...</option>
-                {supportedChains.map((chain, index) => (
-                  <option key={index} value={chain.chainId}>
-                    {chain.name} ({chain.chainId})
-                  </option>
-                ))}
-              </select>
+                placeholder="Enter Polkadot/Kusama address..."
+                className="form-input"
+                style={{ fontFamily: 'monospace', fontSize: '0.9em' }}
+              />
             </div>
+            
             <div className="form-group">
-              <label>To Chain:</label>
-              <select 
-                name="toChain" 
-                value={formData.toChain} 
+              <label>Amount (in planck units):</label>
+              <input
+                type="text"
+                name="amount"
+                value={formData.amount}
                 onChange={handleInputChange}
-                className="form-select"
-              >
-                <option value="">Select destination chain...</option>
-                {supportedChains.map((chain, index) => (
-                  <option key={index} value={chain.chainId}>
-                    {chain.name} ({chain.chainId})
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="form-group">
-              <label>Amount (DOT):</label>
-              <input 
-                type="number" 
-                name="amount" 
-                value={formData.amount} 
-                onChange={handleInputChange}
-                min="0.01"
-                step="0.01"
+                placeholder="1000000000000 (1 DOT)"
                 className="form-input"
               />
+              <small style={{ color: 'var(--text-muted)', marginTop: '0.25rem', display: 'block' }}>
+                Enter amount in planck units (1 DOT = 1,000,000,000,000 planck)
+              </small>
             </div>
             <button 
               onClick={compareFees} 
@@ -174,39 +161,64 @@ function FeeAnalyzer({ address }: FeeAnalyzerProps) {
 
       {/* Fee Comparison Results */}
       {feeData && (
-        <div className="card highlight">
-          <h3>📊 Fee Analysis Results</h3>
-          <div className="fee-results">
-            <div className="result-summary">
-              <div className="savings-highlight">
-                <span className="savings-label">Potential Savings:</span>
-                <span className="savings-amount">{formatPercentage(feeData.savings?.percentage)}</span>
+        <>
+          {/* Savings Summary */}
+          <div className="card highlight">
+            <h3>💰 Fee Savings Analysis</h3>
+            <div className="savings-summary">
+              <div className="savings-card">
+                <div className="savings-percentage">{feeData.savings?.savingsPercent || '0%'}</div>
+                <div className="savings-label">Total Savings</div>
               </div>
-              <div className="amount-details">
-                <span>Save {formatAmount(feeData.savings?.amount)} on {formatAmount(formData.amount)} transfer</span>
-              </div>
-            </div>
-            
-            <div className="route-comparison">
-              <div className="route direct">
-                <h4>🔗 Direct Route</h4>
-                <div className="route-details">
-                  <span>Fee: {formatFee(feeData.directRoute?.fee)}</span>
-                  <span>Route: {feeData.directRoute?.route}</span>
+              <div className="savings-details">
+                <div className="detail-item">
+                  <span className="label">💎 Cheapest:</span>
+                  <span className="value">{feeData.savings?.cheapest}</span>
                 </div>
-              </div>
-              
-              <div className="route optimal">
-                <h4>⚡ Optimal Route</h4>
-                <div className="route-details">
-                  <span>Fee: {formatFee(feeData.optimalRoute?.fee)}</span>
-                  <span>Route: {feeData.optimalRoute?.route}</span>
-                  <span className="badge">Recommended</span>
+                <div className="detail-item">
+                  <span className="label">💸 Most Expensive:</span>
+                  <span className="value">{feeData.savings?.mostExpensive}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="label">💵 Save Amount:</span>
+                  <span className="value">{feeData.savings?.absoluteSavings} WND</span>
+                </div>
+                <div className="detail-item">
+                  <span className="label">⏱️ Analysis Time:</span>
+                  <span className="value">{feeData.analysisTime}ms</span>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+
+          {/* Fee Comparison Chart */}
+          <div className="card">
+            <h3>📊 Chain Fee Comparison ({feeData.totalChains} chains analyzed)</h3>
+            <div className="fee-chart">
+              {feeData.sortedByCheapest?.map((chain, index) => {
+                const isRecommended = index === 0;
+                const isExpensive = index === feeData.sortedByCheapest.length - 1;
+                return (
+                  <div key={chain.chainId} className={`fee-bar ${isRecommended ? 'recommended' : ''} ${isExpensive ? 'expensive' : ''}`}>
+                    <div className="chain-info">
+                      <div className="chain-header">
+                        <span className="chain-icon">{chain.chainConfig?.icon || '⛓️'}</span>
+                        <span className="chain-name">{chain.chainName}</span>
+                        {isRecommended && <span className="badge recommended">💎 Best</span>}
+                        {isExpensive && <span className="badge expensive">💸 Highest</span>}
+                      </div>
+                      <div className="chain-type">{chain.chainConfig?.type || 'chain'}</div>
+                    </div>
+                    <div className="fee-info">
+                      <div className="fee-amount">{chain.feeFormatted} {chain.tokenSymbol}</div>
+                      <div className="fee-raw">{formatFee(chain.fee)}</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </>
       )}
 
       {/* Test Scenario Display */}
