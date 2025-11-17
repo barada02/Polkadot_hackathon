@@ -15,7 +15,11 @@ const PORT = process.env.PORT || 3001;
 // Middleware
 app.use(helmet());
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173'
+  origin: [
+    process.env.FRONTEND_URL || 'http://localhost:5173',
+    'https://polkaflow-five.vercel.app',
+    'https://polkaflow-five.vercel.app/'
+  ]
 }));
 app.use(morgan('combined'));
 app.use(express.json());
