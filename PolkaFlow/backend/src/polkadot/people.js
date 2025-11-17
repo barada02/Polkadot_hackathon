@@ -120,26 +120,29 @@ class PeopleService {
     try {
       const api = await this.connect();
       
-      // Get fee for a basic transfer
-      const transferTx = api.tx.Balances.transfer_keep_alive({
-        dest: destinationAddress,
+      // Create the transaction for fee estimation (using ex6 pattern)
+      const tx = api.tx.Balances.transfer_keep_alive({
+        dest: { type: "Id", value: destinationAddress },
         value: BigInt(amount)
       });
 
-      const feeInfo = await transferTx.getEstimatedFees(destinationAddress);
+      // Estimate fees (using ex6 pattern)
+      const estimatedFee = await tx.getEstimatedFees(destinationAddress);
+      const fee = estimatedFee.toString();
       
       return {
         success: true,
         chainId: this.config.id,
         chainName: this.config.name,
-        fee: feeInfo.toString(),
-        feeFormatted: (parseFloat(feeInfo.toString()) / Math.pow(10, this.config.decimals)).toFixed(6),
+        fee,
+        feeFormatted: (parseFloat(fee) / Math.pow(10, this.config.decimals)).toFixed(6),
         tokenSymbol: this.config.tokenSymbol
       };
     } catch (error) {
       return {
         success: false,
         chainId: this.config.id,
+        chainName: this.config.name,
         error: error.message || "Fee estimation failed"
       };
     }

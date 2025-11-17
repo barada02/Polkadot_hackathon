@@ -240,6 +240,39 @@ export class Westend2Service {
       console.log('⚠️ Westend2 disconnect error:', error.message);
     }
   }
+
+  // Fee analysis methods for cross-chain comparison
+  async getTransferFee(amount, destinationAddress) {
+    try {
+      const api = await this.connect();
+      
+      // Create the transaction for fee estimation (using ex6 pattern)
+      const tx = api.tx.Balances.transfer_keep_alive({
+        dest: { type: "Id", value: destinationAddress },
+        value: BigInt(amount)
+      });
+
+      // Estimate fees (using ex6 pattern)
+      const estimatedFee = await tx.getEstimatedFees(destinationAddress);
+      const fee = estimatedFee.toString();
+      
+      return {
+        success: true,
+        chainId: this.config.id,
+        chainName: this.config.name,
+        fee,
+        feeFormatted: (parseFloat(fee) / Math.pow(10, this.config.decimals)).toFixed(6),
+        tokenSymbol: this.config.tokenSymbol
+      };
+    } catch (error) {
+      return {
+        success: false,
+        chainId: this.config.id,
+        chainName: this.config.name,
+        error: error.message || "Fee estimation failed"
+      };
+    }
+  }
 }
 
 // Export singleton instance
