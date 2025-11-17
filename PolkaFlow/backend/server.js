@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import chainsRoutes from './src/routes/chains.js';
+import polkadotRoutes from './src/routes/polkadot.js';
 
 // Load environment variables
 dotenv.config();
@@ -37,16 +38,20 @@ app.get('/api/v1', (req, res) => {
     endpoints: [
       'GET /health - Health check',
       'GET /api/v1 - API info',
-      'GET /api/v1/chains/status - Get all chain connection status',
-      'POST /api/v1/chains/test - Test all chain connections',
-      'POST /api/v1/chains/test/:chainId - Test specific chain connection',
-      'GET /api/v1/chains/:chainId - Get chain information'
+      'GET /api/v1/chains/status - Get all chain connection status (simulated)',
+      'POST /api/v1/chains/test - Test all chain connections (simulated)',
+      'POST /api/v1/chains/test/:chainId - Test specific chain connection (simulated)',
+      'GET /api/v1/chains/:chainId - Get chain information',
+      'POST /api/v1/polkadot/test-connection - Test real Polkadot connection',
+      'GET /api/v1/polkadot/connection-status - Get real connection status',
+      'POST /api/v1/polkadot/cleanup - Cleanup connections'
     ]
   });
 });
 
 // Route handlers
 app.use('/api/v1/chains', chainsRoutes);
+app.use('/api/v1/polkadot', polkadotRoutes);
 
 // 404 handler
 app.use('*', (req, res) => {
@@ -72,4 +77,5 @@ app.listen(PORT, () => {
   console.log(`🌐 CORS enabled for: ${process.env.FRONTEND_URL}`);
   console.log(`💡 Health check: http://localhost:${PORT}/health`);
   console.log(`⛓️  Chains API: http://localhost:${PORT}/api/v1/chains`);
+  console.log(`🔗 Polkadot API: http://localhost:${PORT}/api/v1/polkadot`);
 });
