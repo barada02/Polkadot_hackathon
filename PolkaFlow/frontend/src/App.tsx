@@ -10,30 +10,58 @@ import { DemoPage } from './pages/DemoPage';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
 import { NotificationArea } from './components/common/NotificationArea';
 
-// Navigation types
-export type PageType = 'landing' | 'dashboard' | 'fees' | 'optimizer' | 'network' | 'demo';
+// Navigation types for main app
+export type PageType = 'dashboard' | 'fees' | 'optimizer' | 'network' | 'demo';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<PageType>('landing');
+  const [isInMainApp, setIsInMainApp] = useState(false);
+  const [currentPage, setCurrentPage] = useState<PageType>('dashboard');
   const [currentAddress, setCurrentAddress] = useState<string>('');
+
+  const enterMainApp = (address: string, startPage: PageType = 'dashboard') => {
+    setCurrentAddress(address);
+    setCurrentPage(startPage);
+    setIsInMainApp(true);
+  };
 
   const navigate = (page: PageType, address?: string) => {
     setCurrentPage(page);
     if (address) setCurrentAddress(address);
   };
 
+  const backToLanding = () => {
+    setIsInMainApp(false);
+    setCurrentAddress('');
+    setCurrentPage('dashboard');
+  };
+
+  // Show landing page if not in main app
+  if (!isInMainApp) {
+    return (
+      <ErrorBoundary>
+        <LandingPage onEnterApp={enterMainApp} />
+        <NotificationArea />
+      </ErrorBoundary>
+    );
+  }
+
+  // Show main application with navigation
   return (
     <ErrorBoundary>
       <div className="app">
-        <Header currentPage={currentPage} onNavigate={navigate} />
+        <Header 
+          currentPage={currentPage} 
+          currentAddress={currentAddress}
+          onNavigate={navigate} 
+          onBackToLanding={backToLanding}
+        />
         
         <main className="main-content">
-          {currentPage === 'landing' && <LandingPage onNavigate={navigate} />}
           {currentPage === 'dashboard' && <DashboardPage address={currentAddress} onNavigate={navigate} />}
           {currentPage === 'fees' && <FeeAnalyzerPage address={currentAddress} onNavigate={navigate} />}
           {currentPage === 'optimizer' && <OptimizerPage address={currentAddress} onNavigate={navigate} />}
           {currentPage === 'network' && <NetworkMonitorPage onNavigate={navigate} />}
-          {currentPage === 'demo' && <DemoPage onNavigate={navigate} />}
+          {currentPage === 'demo' && <DemoPage onEnterApp={enterMainApp} />}
         </main>
         
         <NotificationArea />

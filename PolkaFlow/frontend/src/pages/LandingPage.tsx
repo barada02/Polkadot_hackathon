@@ -1,10 +1,30 @@
+import { useState } from 'react';
 import type { PageType } from '../App';
 
 interface LandingPageProps {
-  onNavigate: (page: PageType, address?: string) => void;
+  onEnterApp: (address: string, startPage?: PageType) => void;
 }
 
-export const LandingPage = ({ onNavigate }: LandingPageProps) => {
+export const LandingPage = ({ onEnterApp }: LandingPageProps) => {
+  const [addressInput, setAddressInput] = useState('');
+  const [isValidating, setIsValidating] = useState(false);
+  
+  const handleAddressSubmit = async () => {
+    if (!addressInput.trim()) return;
+    
+    setIsValidating(true);
+    // Basic Polkadot address validation (starts with 5 and reasonable length)
+    if (addressInput.startsWith('5') && addressInput.length >= 47) {
+      onEnterApp(addressInput.trim(), 'dashboard');
+    } else {
+      alert('Please enter a valid Polkadot address (starts with 5)');
+    }
+    setIsValidating(false);
+  };
+  
+  const handleDemoAccount = (address: string) => {
+    onEnterApp(address, 'dashboard');
+  };
   return (
     <div style={{ textAlign: 'center', padding: '40px 20px' }}>
       <h1 style={{ 
@@ -31,7 +51,9 @@ export const LandingPage = ({ onNavigate }: LandingPageProps) => {
         padding: '32px',
         borderRadius: '12px',
         marginBottom: '32px',
-        border: '1px solid var(--border)'
+        border: '1px solid var(--border)',
+        maxWidth: '600px',
+        margin: '0 auto 32px auto'
       }}>
         <h3 style={{ 
           fontSize: '2rem', 
@@ -40,40 +62,65 @@ export const LandingPage = ({ onNavigate }: LandingPageProps) => {
         }}>
           🎯 Save up to 88.94% on transaction fees
         </h3>
-        <p style={{ fontSize: '1.25rem', marginBottom: '24px' }}>
+        <p style={{ fontSize: '1.25rem', marginBottom: '32px' }}>
           with intelligent multi-chain optimization across 6 Westend chains
         </p>
         
-        <button 
-          onClick={() => onNavigate('demo')}
-          style={{
-            padding: '16px 32px',
-            fontSize: '1.125rem',
-            backgroundColor: 'var(--primary-color)',
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            marginRight: '16px'
-          }}
-        >
-          🎪 Try Live Demo
-        </button>
+        {/* Address Input Section */}
+        <div style={{ marginBottom: '24px' }}>
+          <label style={{
+            display: 'block',
+            marginBottom: '8px',
+            fontWeight: '500',
+            color: 'var(--text)'
+          }}>
+            Enter Polkadot Address:
+          </label>
+          <div style={{ display: 'flex', gap: '12px' }}>
+            <input
+              type="text"
+              value={addressInput}
+              onChange={(e) => setAddressInput(e.target.value)}
+              placeholder="5GrwvaEF5zXb26Fz9rcQpnWsgn7PGrtnYnxBVMn2efMv..."
+              style={{
+                flex: 1,
+                padding: '12px 16px',
+                border: '2px solid var(--border)',
+                borderRadius: '8px',
+                fontSize: '1rem',
+                backgroundColor: 'var(--background)',
+                color: 'var(--text)'
+              }}
+              onKeyPress={(e) => e.key === 'Enter' && handleAddressSubmit()}
+            />
+            <button 
+              onClick={handleAddressSubmit}
+              disabled={!addressInput.trim() || isValidating}
+              style={{
+                padding: '12px 24px',
+                fontSize: '1rem',
+                backgroundColor: 'var(--primary-color)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: addressInput.trim() ? 'pointer' : 'not-allowed',
+                opacity: addressInput.trim() ? 1 : 0.5,
+                minWidth: '120px'
+              }}
+            >
+              {isValidating ? '🔍 Checking...' : '📊 Analyze'}
+            </button>
+          </div>
+        </div>
         
-        <button 
-          onClick={() => onNavigate('dashboard')}
-          style={{
-            padding: '16px 32px',
-            fontSize: '1.125rem',
-            backgroundColor: 'transparent',
-            color: 'var(--primary-color)',
-            border: '2px solid var(--primary-color)',
-            borderRadius: '8px',
-            cursor: 'pointer'
-          }}
-        >
-          📊 Analyze Address
-        </button>
+        <div style={{
+          textAlign: 'center',
+          color: 'var(--text-secondary)',
+          margin: '16px 0',
+          fontSize: '0.875rem'
+        }}>
+          OR
+        </div>
       </div>
       
       <div style={{

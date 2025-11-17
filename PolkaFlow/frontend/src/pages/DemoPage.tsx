@@ -1,12 +1,12 @@
 import type { PageType } from '../App';
 
 interface DemoPageProps {
-  onNavigate: (page: PageType, address?: string) => void;
+  onEnterApp: (address: string, startPage?: PageType) => void;
 }
 
-export const DemoPage = ({ onNavigate }: DemoPageProps) => {
-  const handleDemoAccount = (address: string, _name: string) => {
-    onNavigate('dashboard', address);
+export const DemoPage = ({ onEnterApp }: DemoPageProps) => {
+  const handleDemoAccount = (address: string) => {
+    onEnterApp(address, 'dashboard');
   };
 
   return (
@@ -33,7 +33,7 @@ export const DemoPage = ({ onNavigate }: DemoPageProps) => {
             Multi-chain portfolio with active balances
           </p>
           <button 
-            onClick={() => handleDemoAccount('5GrwvaEF5zXb26Fz9rcQpnWsgn7PGrtnYnxBVMn2efMvRgjT', 'Alice')}
+            onClick={() => handleDemoAccount('5GrwvaEF5zXb26Fz9rcQpnWsgn7PGrtnYnxBVMn2efMvRgjT')}
             style={{ width: '100%' }}
           >
             Analyze Alice's Portfolio
@@ -51,7 +51,7 @@ export const DemoPage = ({ onNavigate }: DemoPageProps) => {
             Heavy Westend Relay user (high fees)
           </p>
           <button 
-            onClick={() => handleDemoAccount('5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty', 'Bob')}
+            onClick={() => handleDemoAccount('5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty')}
             style={{ width: '100%' }}
           >
             Analyze Bob's Portfolio
@@ -69,7 +69,7 @@ export const DemoPage = ({ onNavigate }: DemoPageProps) => {
             Asset Hub optimizer (smart user)
           </p>
           <button 
-            onClick={() => handleDemoAccount('5FLSigC9HGRKVhB9FiEo4Y3koPFNTsXN4hdKD6gsfV4bfz9C', 'Charlie')}
+            onClick={() => handleDemoAccount('5FLSigC9HGRKVhB9FiEo4Y3koPFNTsXN4hdKD6gsfV4bfz9C')}
             style={{ width: '100%' }}
           >
             Analyze Charlie's Portfolio
@@ -87,9 +87,9 @@ export const DemoPage = ({ onNavigate }: DemoPageProps) => {
         <p>You'll see live data showing how Asset Hub saves 88.94% compared to Westend Relay</p>
       </div>
       
-      <button onClick={() => onNavigate('landing')}>
-        🏠 Back to Home
-      </button>
+      <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
+        Use the navigation buttons above to explore the app or click "New Address" to try a different account.
+      </p>
     </div>
   );
 };

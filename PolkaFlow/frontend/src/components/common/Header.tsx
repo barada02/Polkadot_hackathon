@@ -2,10 +2,12 @@ import type { PageType } from '../../App';
 
 interface HeaderProps {
   currentPage: PageType;
+  currentAddress: string;
   onNavigate: (page: PageType) => void;
+  onBackToLanding: () => void;
 }
 
-export const Header = ({ currentPage, onNavigate }: HeaderProps) => {
+export const Header = ({ currentPage, currentAddress, onNavigate, onBackToLanding }: HeaderProps) => {
   const headerStyle = {
     display: 'flex',
     alignItems: 'center',
@@ -57,20 +59,24 @@ export const Header = ({ currentPage, onNavigate }: HeaderProps) => {
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <h1 
           style={logoStyle}
-          onClick={() => onNavigate('landing')}
+          onClick={onBackToLanding}
         >
           PolkaFlow
         </h1>
         <span style={taglineStyle}>Save 88.94% on fees</span>
+        <div style={{
+          marginLeft: '16px',
+          padding: '4px 8px',
+          backgroundColor: 'rgba(230, 0, 122, 0.1)',
+          borderRadius: '4px',
+          fontSize: '0.75rem',
+          color: 'var(--primary-color)'
+        }}>
+          {currentAddress ? `${currentAddress.slice(0, 8)}...${currentAddress.slice(-6)}` : 'No Address'}
+        </div>
       </div>
       
       <nav style={navStyle}>
-        <button 
-          style={getButtonStyle(currentPage === 'landing')}
-          onClick={() => onNavigate('landing')}
-        >
-          🏠 Home
-        </button>
         <button 
           style={getButtonStyle(currentPage === 'dashboard')}
           onClick={() => onNavigate('dashboard')}
@@ -103,7 +109,21 @@ export const Header = ({ currentPage, onNavigate }: HeaderProps) => {
         </button>
       </nav>
       
-      <div>
+      <div style={{ display: 'flex', gap: '8px' }}>
+        <button 
+          style={{
+            padding: '8px 16px',
+            borderRadius: '6px',
+            border: '1px solid var(--primary-color)',
+            backgroundColor: 'transparent',
+            color: 'var(--primary-color)',
+            fontSize: '0.875rem',
+            cursor: 'pointer'
+          }}
+          onClick={onBackToLanding}
+        >
+          🏠 New Address
+        </button>
         <button 
           style={{
             padding: '8px 16px',
