@@ -1,15 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import ApiService from '../../services/api';
 
-interface FeeAnalyzerProps {
-  address: string;
+interface Chain {
+  chainId: string;
+  chainName: string;
+  name: string;
+  fee: string;
+  feeFormatted: string;
+  tokenSymbol: string;
+  chainConfig?: {
+    icon?: string;
+    type?: string;
+  };
 }
 
-function FeeAnalyzer({ address }: FeeAnalyzerProps) {
-  const [feeData, setFeeData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [supportedChains, setSupportedChains] = useState([]);
+interface FeeData {
+  totalChains: number;
+  successfulChains: number;
+  failedChains: number;
+  fees: Chain[];
+  sortedByCheapest: Chain[];
+  savings: {
+    cheapest: string;
+    mostExpensive: string;
+    savingsAmount: string;
+    savingsPercent: string;
+    absoluteSavings: string;
+  };
+  analysisTime: number;
+  timestamp: string;
+}
+
+function FeeAnalyzer() {
+  const [feeData, setFeeData] = useState<FeeData | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [supportedChains, setSupportedChains] = useState<Chain[]>([]);
   const [formData, setFormData] = useState({
     destinationAddress: '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY', // Default test address
     amount: '1000000000000' // Default 1 DOT in planck units
@@ -31,7 +57,7 @@ function FeeAnalyzer({ address }: FeeAnalyzerProps) {
 
 
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
@@ -55,32 +81,20 @@ function FeeAnalyzer({ address }: FeeAnalyzerProps) {
       const feeData = response.data?.data || response.data || response;
       setFeeData(feeData);
     } catch (err) {
-      setError(err.message);
+      const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
+      setError(errorMessage);
       console.error('Fee comparison error:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  const formatFee = (fee) => {
+  const formatFee = (fee: string | number): string => {
     if (!fee) return 'N/A';
     const feeValue = typeof fee === 'string' ? parseFloat(fee) : fee;
     // Convert from smallest unit (planck) to token unit
     const tokenValue = feeValue / Math.pow(10, 12); // 12 decimals for WND
     return `${tokenValue.toFixed(8)} Raw`;
-  };
-
-  const formatPercentage = (percentage) => {
-    if (!percentage) return '0%';
-    if (typeof percentage === 'string') {
-      return percentage; // Already formatted like "88.94%"
-    }
-    return `${percentage.toFixed(2)}%`;
-  };
-
-  const formatAmount = (amount, symbol = 'DOT') => {
-    if (!amount) return '0';
-    return `${parseFloat(amount).toFixed(4)} ${symbol}`;
   };
 
   return (
@@ -174,10 +188,16 @@ function FeeAnalyzer({ address }: FeeAnalyzerProps) {
           {/* Fee Comparison Chart */}
           <div className="card">
             <h3>📊 Chain Fee Comparison ({feeData.totalChains} chains analyzed)</h3>
+            {(() => {
+              console.log('Debug - feeData.sortedByCheapest:', feeData.sortedByCheapest);
+              console.log('Debug - Full feeData:', feeData);
+              return null;
+            })()}
             <div className="fee-chart">
-              {feeData.sortedByCheapest?.map((chain, index) => {
+              {(feeData.sortedByCheapest || feeData.fees || []).map((chain: Chain, index: number) => {
+                const chainsArray = feeData.sortedByCheapest || feeData.fees || [];
                 const isRecommended = index === 0;
-                const isExpensive = index === feeData.sortedByCheapest.length - 1;
+                const isExpensive = index === chainsArray.length - 1;
                 return (
                   <div key={chain.chainId} className={`fee-bar ${isRecommended ? 'recommended' : ''} ${isExpensive ? 'expensive' : ''}`}>
                     <div className="chain-info">
@@ -196,6 +216,12 @@ function FeeAnalyzer({ address }: FeeAnalyzerProps) {
                   </div>
                 );
               })}
+              {(!feeData.sortedByCheapest && !feeData.fees) && (
+                <div className="no-data">
+                  <p>No fee data available to display chart.</p>
+                  <p>Check console for debugging information.</p>
+                </div>
+              )}
             </div>
           </div>
         </>
