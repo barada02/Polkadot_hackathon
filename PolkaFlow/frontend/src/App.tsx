@@ -1,35 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
+import { Header } from './components/common/Header';
+import { LandingPage } from './pages/LandingPage';
+import { DashboardPage } from './pages/DashboardPage';
+import { FeeAnalyzerPage } from './pages/FeeAnalyzerPage';
+import { OptimizerPage } from './pages/OptimizerPage';
+import { NetworkMonitorPage } from './pages/NetworkMonitorPage';
+import { DemoPage } from './pages/DemoPage';
+import { ErrorBoundary } from './components/common/ErrorBoundary';
+import { NotificationArea } from './components/common/NotificationArea';
+
+// Navigation types
+export type PageType = 'landing' | 'dashboard' | 'fees' | 'optimizer' | 'network' | 'demo';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentPage, setCurrentPage] = useState<PageType>('landing');
+  const [currentAddress, setCurrentAddress] = useState<string>('');
+
+  const navigate = (page: PageType, address?: string) => {
+    setCurrentPage(page);
+    if (address) setCurrentAddress(address);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <ErrorBoundary>
+      <div className="app">
+        <Header currentPage={currentPage} onNavigate={navigate} />
+        
+        <main className="main-content">
+          {currentPage === 'landing' && <LandingPage onNavigate={navigate} />}
+          {currentPage === 'dashboard' && <DashboardPage address={currentAddress} onNavigate={navigate} />}
+          {currentPage === 'fees' && <FeeAnalyzerPage address={currentAddress} onNavigate={navigate} />}
+          {currentPage === 'optimizer' && <OptimizerPage address={currentAddress} onNavigate={navigate} />}
+          {currentPage === 'network' && <NetworkMonitorPage onNavigate={navigate} />}
+          {currentPage === 'demo' && <DemoPage onNavigate={navigate} />}
+        </main>
+        
+        <NotificationArea />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </ErrorBoundary>
+  );
 }
 
-export default App
+export default App;
