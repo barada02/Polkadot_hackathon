@@ -145,14 +145,15 @@ Enhanced batch processing and data aggregation...
 
 ---
 
-### 🔴 **Experiment 4: "Real-time Updates"** (PLANNED)
+### 🔄 **Experiment 4: "Real-time Updates"** (IN PROGRESS)
 **File**: `ex4-realtime.js`  
-**Goal**: Subscribe to live balance changes  
+**Goal**: Subscribe to live balance changes and block updates  
 **What it does**:
-- Subscribe to balance changes
-- Log updates in real-time
-- Handle subscription lifecycle
-**Learning**: WebSocket subscriptions, observables, reactive data
+- Subscribe to finalized block updates in real-time
+- Monitor live balance changes for portfolio accounts
+- Handle subscription lifecycle and cleanup
+- Create reactive data patterns for React integration
+**Learning**: PAPI observables, subscription patterns, reactive programming, real-time data streams
 
 ---
 
