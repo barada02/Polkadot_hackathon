@@ -6,18 +6,21 @@ import { assetHubService } from './assetHub.js';
 import CollectivesService from './collectives.js';
 import CoretimeService from './coretime.js';
 import PeopleService from './people.js';
+import BridgeHubService from './bridgeHub.js';
 import { CHAIN_CONFIG } from '../config/chains.js';
 
 // Initialize services
 const collectivesService = new CollectivesService();
 const coretimeService = new CoretimeService();
 const peopleService = new PeopleService();
+const bridgeHubService = new BridgeHubService();
 
 export class CrossChainFeeAnalyzer {
   constructor() {
     this.chains = {
       westend2: westend2Service,
       westend2_asset_hub: assetHubService,
+      westend2_bridge_hub: bridgeHubService,
       westend2_collectives: collectivesService,
       westend2_coretime: coretimeService,
       westend2_people: peopleService
@@ -28,6 +31,7 @@ export class CrossChainFeeAnalyzer {
       // From Relay Chain
       'westend2': {
         'westend2_asset_hub': { hops: 1, type: 'relay_to_parachain' },
+        'westend2_bridge_hub': { hops: 1, type: 'relay_to_parachain' },
         'westend2_collectives': { hops: 1, type: 'relay_to_parachain' },
         'westend2_coretime': { hops: 1, type: 'relay_to_parachain' },
         'westend2_people': { hops: 1, type: 'relay_to_parachain' }
@@ -35,6 +39,15 @@ export class CrossChainFeeAnalyzer {
       // From Asset Hub (most connected parachain)
       'westend2_asset_hub': {
         'westend2': { hops: 1, type: 'parachain_to_relay' },
+        'westend2_bridge_hub': { hops: 2, type: 'parachain_to_parachain' },
+        'westend2_collectives': { hops: 2, type: 'parachain_to_parachain' },
+        'westend2_coretime': { hops: 2, type: 'parachain_to_parachain' },
+        'westend2_people': { hops: 2, type: 'parachain_to_parachain' }
+      },
+      // From Bridge Hub
+      'westend2_bridge_hub': {
+        'westend2': { hops: 1, type: 'parachain_to_relay' },
+        'westend2_asset_hub': { hops: 2, type: 'parachain_to_parachain' },
         'westend2_collectives': { hops: 2, type: 'parachain_to_parachain' },
         'westend2_coretime': { hops: 2, type: 'parachain_to_parachain' },
         'westend2_people': { hops: 2, type: 'parachain_to_parachain' }
@@ -43,6 +56,7 @@ export class CrossChainFeeAnalyzer {
       'westend2_collectives': {
         'westend2': { hops: 1, type: 'parachain_to_relay' },
         'westend2_asset_hub': { hops: 2, type: 'parachain_to_parachain' },
+        'westend2_bridge_hub': { hops: 2, type: 'parachain_to_parachain' },
         'westend2_coretime': { hops: 2, type: 'parachain_to_parachain' },
         'westend2_people': { hops: 2, type: 'parachain_to_parachain' }
       },
@@ -50,6 +64,7 @@ export class CrossChainFeeAnalyzer {
       'westend2_coretime': {
         'westend2': { hops: 1, type: 'parachain_to_relay' },
         'westend2_asset_hub': { hops: 2, type: 'parachain_to_parachain' },
+        'westend2_bridge_hub': { hops: 2, type: 'parachain_to_parachain' },
         'westend2_collectives': { hops: 2, type: 'parachain_to_parachain' },
         'westend2_people': { hops: 2, type: 'parachain_to_parachain' }
       },
@@ -57,6 +72,7 @@ export class CrossChainFeeAnalyzer {
       'westend2_people': {
         'westend2': { hops: 1, type: 'parachain_to_relay' },
         'westend2_asset_hub': { hops: 2, type: 'parachain_to_parachain' },
+        'westend2_bridge_hub': { hops: 2, type: 'parachain_to_parachain' },
         'westend2_collectives': { hops: 2, type: 'parachain_to_parachain' },
         'westend2_coretime': { hops: 2, type: 'parachain_to_parachain' }
       }

@@ -4,12 +4,14 @@ import { assetHubService } from './assetHub.js';
 import CollectivesService from './collectives.js';
 import CoretimeService from './coretime.js';
 import PeopleService from './people.js';
+import BridgeHubService from './bridgeHub.js';
 import { CHAIN_CONFIG } from '../config/chains.js';
 
 // Initialize new services
 const collectivesService = new CollectivesService();
 const coretimeService = new CoretimeService();
 const peopleService = new PeopleService();
+const bridgeHubService = new BridgeHubService();
 
 /**
  * Multi-Chain Portfolio Service
@@ -20,6 +22,7 @@ export class MultiChainPortfolio {
     this.chains = {
       westend2: westend2Service,
       westend2_asset_hub: assetHubService,
+      westend2_bridge_hub: bridgeHubService,
       westend2_collectives: collectivesService,
       westend2_coretime: coretimeService,
       westend2_people: peopleService
