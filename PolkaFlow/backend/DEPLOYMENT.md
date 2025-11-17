@@ -13,7 +13,7 @@
    - Select the backend directory: `polkaflow/backend`
 
 2. **Build Settings**
-   - **Build Command:** `npm install`
+   - **Build Command:** `npm install && npm run build`
    - **Start Command:** `npm start`
    - **Node Version:** 18.x or higher
 
@@ -41,7 +41,7 @@ The backend automatically sets up Polkadot API chains during deployment:
 
 ### Build Process Flow
 1. `npm install` - Install dependencies
-2. `npm run build` - Automatically triggered by postinstall
+2. `npm run build` - Run after dependencies are installed
 3. `npm run setup-chains` - Add Polkadot chains
 4. `npm run generate-descriptors` - Generate API descriptors
 5. `npm start` - Start the server
