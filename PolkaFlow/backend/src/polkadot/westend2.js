@@ -244,10 +244,10 @@ export class Westend2Service {
   // Fee analysis methods for cross-chain comparison
   async getTransferFee(amount, destinationAddress) {
     try {
-      const api = await this.connect();
+      await this.connect();
       
       // Create the transaction for fee estimation (using ex6 pattern)
-      const tx = api.tx.Balances.transfer_keep_alive({
+      const tx = this.api.tx.Balances.transfer_keep_alive({
         dest: { type: "Id", value: destinationAddress },
         value: BigInt(amount)
       });
