@@ -1,6 +1,7 @@
 // Multi-Chain Portfolio Orchestrator
 import { westend2Service } from './westend2.js';
 import { assetHubService } from './assetHub.js';
+import { CHAIN_CONFIG } from '../config/chains.js';
 
 /**
  * Multi-Chain Portfolio Service
@@ -151,35 +152,21 @@ export class MultiChainPortfolio {
   }
 
   /**
-   * Get supported chains list
+   * Get supported chains list using centralized config
    */
   getSupportedChains() {
-    return Object.keys(this.chains).map(chainId => ({
-      chainId,
-      name: this.getChainDisplayName(chainId),
-      type: this.getChainType(chainId)
-    }));
-  }
-
-  /**
-   * Get chain display name
-   */
-  getChainDisplayName(chainId) {
-    const names = {
-      westend2: 'Westend Relay',
-      westend2_asset_hub: 'Asset Hub',
-      westend2_bridge_hub: 'Bridge Hub',
-      westend2_people: 'People Chain'
-    };
-    return names[chainId] || chainId;
-  }
-
-  /**
-   * Get chain type
-   */
-  getChainType(chainId) {
-    if (chainId === 'westend2') return 'relay';
-    return 'system_parachain';
+    return Object.keys(this.chains).map(chainId => {
+      const config = CHAIN_CONFIG[chainId];
+      return {
+        chainId: config.id,
+        name: config.name,
+        icon: config.icon,
+        type: config.type,
+        description: config.description,
+        priority: config.priority,
+        tokenSymbol: config.tokenSymbol
+      };
+    });
   }
 
   /**

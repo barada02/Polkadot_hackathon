@@ -1,47 +1,52 @@
-// Chain Configuration - Based on our successful experiments
+// Chain Configuration - Centralized config for good code practice
 export const CHAIN_CONFIG = {
-  westend: {
+  westend2: {
+    id: "westend2",
     name: "Westend Relay",
     icon: "🔗",
     type: "relay",
-    endpoints: [
-      "wss://westend-rpc.polkadot.io",
-      "wss://westend-rpc.dwellir.com"
-    ],
-    // descriptor: westend2 - Will be imported when we add PAPI
-    priority: 1
+    wsEndpoint: "wss://westend-rpc.polkadot.io",
+    descriptorName: "westend2",
+    tokenSymbol: "WND",
+    decimals: 12,
+    priority: 1,
+    description: "Westend relay chain for testing and governance"
   },
-  assethub: {
-    name: "Asset Hub", 
+  westend2_asset_hub: {
+    id: "westend2_asset_hub", 
+    name: "Asset Hub",
     icon: "💎",
     type: "system_parachain",
-    endpoints: [
-      "wss://westend-asset-hub-rpc.polkadot.io/public-ws"
-    ],
-    // descriptor: westend2_asset_hub - Will be imported when we add PAPI
-    priority: 1
+    wsEndpoint: "wss://westend-asset-hub-rpc.polkadot.io",
+    descriptorName: "westend2_asset_hub",
+    tokenSymbol: "WND",
+    decimals: 12,
+    priority: 1,
+    description: "Asset management and native token operations"
   },
-  bridgehub: {
+  westend2_bridge_hub: {
+    id: "westend2_bridge_hub",
     name: "Bridge Hub",
-    icon: "🌉", 
+    icon: "🌉",
     type: "system_parachain",
-    endpoints: [
-      "wss://westend-bridge-hub-rpc.polkadot.io",
-      "wss://westend-bridge-hub-rpc.polkadot.io/public-ws"
-    ],
-    // descriptor: westend2_bridge_hub - Will be imported when we add PAPI
-    priority: 2
+    wsEndpoint: "wss://westend-bridge-hub-rpc.polkadot.io",
+    descriptorName: "westend2_bridge_hub", 
+    tokenSymbol: "WND",
+    decimals: 12,
+    priority: 2,
+    description: "Cross-chain bridge operations"
   },
-  people: {
-    name: "People Chain",
+  westend2_people: {
+    id: "westend2_people",
+    name: "People Chain", 
     icon: "👥",
-    type: "system_parachain", 
-    endpoints: [
-      "wss://westend-people-rpc.polkadot.io",
-      "wss://westend-people-rpc.polkadot.io/public-ws"
-    ],
-    // descriptor: westend2_people - Will be imported when we add PAPI
-    priority: 2
+    type: "system_parachain",
+    wsEndpoint: "wss://westend-people-rpc.polkadot.io",
+    descriptorName: "westend2_people",
+    tokenSymbol: "WND", 
+    decimals: 12,
+    priority: 2,
+    description: "Identity and reputation management"
   }
 };
 

@@ -1,7 +1,8 @@
-// Asset Hub Chain Logic - Using WebSocket like experiments
+// Asset Hub Chain Logic - Using centralized config
 import { createClient } from "polkadot-api";
 import { getWsProvider } from "polkadot-api/ws-provider";
 import { withPolkadotSdkCompat } from "polkadot-api/polkadot-sdk-compat";
+import { CHAIN_CONFIG } from "../config/chains.js";
 import pkg from "../../.papi/descriptors/dist/index.js";
 const { westend2_asset_hub } = pkg;
 
@@ -15,7 +16,7 @@ export class AssetHubService {
     this.api = null;
     this.provider = null;
     this.isConnected = false;
-    this.wsEndpoint = "wss://westend-asset-hub-rpc.polkadot.io"; // Fast Asset Hub RPC
+    this.config = CHAIN_CONFIG.westend2_asset_hub; // Use centralized config
   }
 
   /**
@@ -27,27 +28,25 @@ export class AssetHubService {
     }
 
     try {
-      console.log('💎 Connecting to Asset Hub via WebSocket...');
+      console.log(`${this.config.icon} Connecting to ${this.config.name} via WebSocket...`);
       
-      // Use WebSocket provider like experiments (much faster!)
-      this.provider = withPolkadotSdkCompat(getWsProvider(this.wsEndpoint));
+      // Use WebSocket provider with config endpoint
+      this.provider = withPolkadotSdkCompat(getWsProvider(this.config.wsEndpoint));
       this.client = createClient(this.provider);
       this.api = this.client.getTypedApi(westend2_asset_hub);
       
       // Quick connection test
-      console.log('✅ Asset Hub WebSocket connected');
+      console.log(`✅ ${this.config.name} WebSocket connected`);
       
       this.isConnected = true;
       
-      console.log('✅ Asset Hub connected');
-      
       return {
         success: true,
-        chainId: 'westend2_asset_hub',
-        chainName: 'Asset Hub',
-        tokenSymbol: 'WND',
-        decimals: 12,
-        type: 'system_parachain'
+        chainId: this.config.id,
+        chainName: this.config.name,
+        tokenSymbol: this.config.tokenSymbol,
+        decimals: this.config.decimals,
+        type: this.config.type
       };
       
     } catch (error) {

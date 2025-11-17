@@ -1,7 +1,8 @@
-// Westend2 Relay Chain Logic - Using WebSocket like experiments
+// Westend2 Relay Chain Logic - Using centralized config
 import { createClient } from "polkadot-api";
 import { getWsProvider } from "polkadot-api/ws-provider";
 import { withPolkadotSdkCompat } from "polkadot-api/polkadot-sdk-compat";
+import { CHAIN_CONFIG } from "../config/chains.js";
 import pkg from "../../.papi/descriptors/dist/index.js";
 const { westend2 } = pkg;
 
@@ -15,7 +16,7 @@ export class Westend2Service {
     this.api = null;
     this.provider = null;
     this.isConnected = false;
-    this.wsEndpoint = "wss://westend-rpc.polkadot.io"; // Fast RPC endpoint
+    this.config = CHAIN_CONFIG.westend2; // Use centralized config
   }
 
   /**
@@ -27,27 +28,25 @@ export class Westend2Service {
     }
 
     try {
-      console.log('🔗 Connecting to Westend2 Relay via WebSocket...');
+      console.log(`🔗 Connecting to ${this.config.name} via WebSocket...`);
       
-      // Use WebSocket provider like experiments (much faster!)
-      this.provider = withPolkadotSdkCompat(getWsProvider(this.wsEndpoint));
+      // Use WebSocket provider with config endpoint
+      this.provider = withPolkadotSdkCompat(getWsProvider(this.config.wsEndpoint));
       this.client = createClient(this.provider);
       this.api = this.client.getTypedApi(westend2);
       
-      // Quick connection test (no need for full chain spec)
-      console.log('✅ Westend2 WebSocket connected');
+      // Quick connection test
+      console.log(`✅ ${this.config.name} WebSocket connected`);
       
       this.isConnected = true;
       
-      console.log('✅ Westend2 Relay connected');
-      
       return {
         success: true,
-        chainId: 'westend2',
-        chainName: 'Westend Relay',
-        tokenSymbol: 'WND',
-        decimals: 12,
-        type: 'relay'
+        chainId: this.config.id,
+        chainName: this.config.name,
+        tokenSymbol: this.config.tokenSymbol,
+        decimals: this.config.decimals,
+        type: this.config.type
       };
       
     } catch (error) {
