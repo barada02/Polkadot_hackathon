@@ -1,5 +1,5 @@
 import express from 'express';
-import { polkadotPortfolio } from '../polkadot/portfolio.js';
+import { multiChainPortfolio } from '../polkadot/multiChain.js';
 
 const router = express.Router();
 
@@ -25,7 +25,7 @@ router.post('/analyze', async (req, res) => {
     console.log(`🔍 API Request: Portfolio analysis for ${address.slice(0, 8)}...`);
     
     // Validate address format
-    const validation = polkadotPortfolio.validateAddress(address);
+    const validation = multiChainPortfolio.validateAddress(address);
     if (!validation.valid) {
       return res.status(400).json({
         success: false,
@@ -34,8 +34,8 @@ router.post('/analyze', async (req, res) => {
       });
     }
     
-    // Analyze portfolio using isolated Polkadot logic
-    const result = await polkadotPortfolio.analyzeWestendPortfolio(address);
+    // Analyze portfolio across multiple chains
+    const result = await multiChainPortfolio.analyzeMultiChainPortfolio(address);
     
     if (result.success) {
       res.json({
@@ -140,12 +140,81 @@ router.get('/test-addresses', (req, res) => {
 });
 
 /**
+ * POST /api/v1/portfolio/chain
+ * Analyze portfolio on specific chain
+ * 
+ * Body: { "address": "5Gr...", "chainId": "westend2_asset_hub" }
+ */
+router.post('/chain', async (req, res) => {
+  try {
+    const { address, chainId } = req.body;
+    
+    if (!address || !chainId) {
+      return res.status(400).json({
+        success: false,
+        error: 'Address and chainId are required'
+      });
+    }
+    
+    console.log(`🔍 API Request: ${chainId} portfolio for ${address.slice(0, 8)}...`);
+    
+    const result = await multiChainPortfolio.analyzeChainPortfolio(address, chainId);
+    
+    if (result.success) {
+      res.json({
+        success: true,
+        message: `${chainId} portfolio analysis completed`,
+        data: result
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: `${chainId} portfolio analysis failed`,
+        data: result
+      });
+    }
+    
+  } catch (error) {
+    console.error('Error in chain portfolio analysis:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error',
+      message: error.message
+    });
+  }
+});
+
+/**
+ * GET /api/v1/portfolio/supported-chains
+ * Get list of supported chains
+ */
+router.get('/supported-chains', (req, res) => {
+  try {
+    const chains = multiChainPortfolio.getSupportedChains();
+    
+    res.json({
+      success: true,
+      data: chains,
+      message: `${chains.length} chains supported`
+    });
+    
+  } catch (error) {
+    console.error('Error getting supported chains:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error',
+      message: error.message
+    });
+  }
+});
+
+/**
  * POST /api/v1/portfolio/cleanup
  * Cleanup portfolio connections (development helper)
  */
 router.post('/cleanup', async (req, res) => {
   try {
-    await polkadotPortfolio.cleanup();
+    await multiChainPortfolio.cleanup();
     
     res.json({
       success: true,
