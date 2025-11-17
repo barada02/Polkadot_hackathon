@@ -188,37 +188,33 @@ function FeeAnalyzer() {
           {/* Fee Comparison Chart */}
           <div className="card">
             <h3>📊 Chain Fee Comparison ({feeData.totalChains} chains analyzed)</h3>
-            {(() => {
-              console.log('Debug - feeData.sortedByCheapest:', feeData.sortedByCheapest);
-              console.log('Debug - Full feeData:', feeData);
-              return null;
-            })()}
+
             <div className="fee-chart">
-              {(feeData.sortedByCheapest || feeData.fees || []).map((chain: Chain, index: number) => {
-                const chainsArray = feeData.sortedByCheapest || feeData.fees || [];
-                const isRecommended = index === 0;
-                const isExpensive = index === chainsArray.length - 1;
-                return (
-                  <div key={chain.chainId} className={`fee-bar ${isRecommended ? 'recommended' : ''} ${isExpensive ? 'expensive' : ''}`}>
-                    <div className="chain-info">
-                      <div className="chain-header">
-                        <span className="chain-icon">{chain.chainConfig?.icon || '⛓️'}</span>
-                        <span className="chain-name">{chain.chainName}</span>
-                        {isRecommended && <span className="badge recommended">💎 Best</span>}
-                        {isExpensive && <span className="badge expensive">💸 Highest</span>}
+              {feeData.sortedByCheapest?.length > 0 ? (
+                feeData.sortedByCheapest.map((chain: Chain, index: number) => {
+                  const isRecommended = index === 0;
+                  const isExpensive = index === feeData.sortedByCheapest!.length - 1;
+                  return (
+                    <div key={chain.chainId} className={`fee-bar ${isRecommended ? 'recommended' : ''} ${isExpensive ? 'expensive' : ''}`}>
+                      <div className="chain-info">
+                        <div className="chain-header">
+                          <span className="chain-icon">{chain.chainConfig?.icon || '⛓️'}</span>
+                          <span className="chain-name">{chain.chainName}</span>
+                          {isRecommended && <span className="badge recommended">💎 Best</span>}
+                          {isExpensive && <span className="badge expensive">💸 Highest</span>}
+                        </div>
+                        <div className="chain-type">{chain.chainConfig?.type || 'chain'}</div>
                       </div>
-                      <div className="chain-type">{chain.chainConfig?.type || 'chain'}</div>
+                      <div className="fee-info">
+                        <div className="fee-amount">{chain.feeFormatted} {chain.tokenSymbol}</div>
+                        <div className="fee-raw">{formatFee(chain.fee)}</div>
+                      </div>
                     </div>
-                    <div className="fee-info">
-                      <div className="fee-amount">{chain.feeFormatted} {chain.tokenSymbol}</div>
-                      <div className="fee-raw">{formatFee(chain.fee)}</div>
-                    </div>
-                  </div>
-                );
-              })}
-              {(!feeData.sortedByCheapest && !feeData.fees) && (
-                <div className="no-data">
-                  <p>No fee data available to display chart.</p>
+                  );
+                })
+              ) : (
+                <div className="no-data" style={{ padding: '2rem', textAlign: 'center', color: '#f39c12' }}>
+                  <p>⚠️ No fee data available to display chart.</p>
                   <p>Check console for debugging information.</p>
                 </div>
               )}

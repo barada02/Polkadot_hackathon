@@ -22,13 +22,21 @@ function Optimizer({ address }: OptimizerProps) {
 
   const loadSupportedChains = async () => {
     try {
-      const chains = await ApiService.getFeesSupportedChains();
-      setSupportedChains(chains.chains || []);
-      if (chains.chains && chains.chains.length >= 2) {
+      const response = await ApiService.getFeesSupportedChains();
+      console.log('Optimizer - Supported chains response:', response); // Debug log
+      
+      // Handle nested response structure
+      const chainsData = response.data?.data || response.data || response;
+      const chains = chainsData.chains || chainsData || [];
+      
+      console.log('Optimizer - Processed chains:', chains); // Debug log
+      setSupportedChains(chains);
+      
+      if (chains && chains.length >= 2) {
         setFormData(prev => ({
           ...prev,
-          fromChain: chains.chains[0].chainId,
-          toChain: chains.chains[chains.chains.length - 1].chainId
+          fromChain: chains[0].chainId || chains[0].id,
+          toChain: chains[chains.length - 1].chainId || chains[chains.length - 1].id
         }));
       }
     } catch (err) {
@@ -104,8 +112,8 @@ function Optimizer({ address }: OptimizerProps) {
               >
                 <option value="">Select source chain...</option>
                 {supportedChains.map((chain, index) => (
-                  <option key={index} value={chain.chainId}>
-                    {chain.name} ({chain.chainId})
+                  <option key={index} value={chain.chainId || chain.id}>
+                    {chain.name} ({chain.chainId || chain.id})
                   </option>
                 ))}
               </select>
@@ -120,8 +128,8 @@ function Optimizer({ address }: OptimizerProps) {
               >
                 <option value="">Select destination chain...</option>
                 {supportedChains.map((chain, index) => (
-                  <option key={index} value={chain.chainId}>
-                    {chain.name} ({chain.chainId})
+                  <option key={index} value={chain.chainId || chain.id}>
+                    {chain.name} ({chain.chainId || chain.id})
                   </option>
                 ))}
               </select>
@@ -167,11 +175,12 @@ function Optimizer({ address }: OptimizerProps) {
               <div className="route-path">
                 {routeData.optimalRoute && (
                   <div className="path-visualization">
-                    <span className="route-steps">{routeData.optimalRoute.route}</span>
+                    <span className="route-steps">
+                      {routeData.optimalRoute.path?.join(' → ') || routeData.optimalRoute.type}
+                    </span>
                     <div className="route-savings">
                       <span className="savings-badge">
-                        Save {formatPercentage(routeData.savings?.percentage)} 
-                        ({formatAmount(routeData.savings?.amount)})
+                        {routeData.recommendation}
                       </span>
                     </div>
                   </div>
@@ -180,15 +189,15 @@ function Optimizer({ address }: OptimizerProps) {
               <div className="route-details">
                 <div className="detail-item">
                   <span className="label">Total Fee:</span>
-                  <span className="value">{formatFee(routeData.optimalRoute?.totalFee)}</span>
+                  <span className="value">{routeData.optimalRoute?.estimatedFee?.totalFeeFormatted} {routeData.optimalRoute?.estimatedFee?.tokenSymbol}</span>
                 </div>
                 <div className="detail-item">
-                  <span className="label">Steps:</span>
-                  <span className="value">{routeData.optimalRoute?.steps || 1}</span>
+                  <span className="label">Hops:</span>
+                  <span className="value">{routeData.optimalRoute?.hops}</span>
                 </div>
                 <div className="detail-item">
-                  <span className="label">Estimated Time:</span>
-                  <span className="value">{routeData.optimalRoute?.estimatedTime || '~2-5 minutes'}</span>
+                  <span className="label">Route Type:</span>
+                  <span className="value">{routeData.optimalRoute?.routeType?.replace('_', ' ')}</span>
                 </div>
               </div>
             </div>
@@ -196,26 +205,30 @@ function Optimizer({ address }: OptimizerProps) {
 
           {/* Route Comparison */}
           <div className="card">
-            <h3>📊 Route Comparison</h3>
+            <h3>📊 Route Comparison ({routeData.totalRoutes} routes found)</h3>
             <div className="comparison-table">
               <div className="comparison-header">
                 <span>Route Type</span>
                 <span>Fee</span>
-                <span>Steps</span>
+                <span>Hops</span>
                 <span>Savings</span>
               </div>
-              <div className="comparison-row">
-                <span className="route-type">🔗 Direct</span>
-                <span className="fee">{formatFee(routeData.directRoute?.fee)}</span>
-                <span className="steps">1</span>
-                <span className="savings">-</span>
-              </div>
-              <div className="comparison-row optimal">
-                <span className="route-type">⚡ Optimal</span>
-                <span className="fee">{formatFee(routeData.optimalRoute?.totalFee)}</span>
-                <span className="steps">{routeData.optimalRoute?.steps || 2}</span>
-                <span className="savings">{formatPercentage(routeData.savings?.percentage)}</span>
-              </div>
+              {routeData.allRoutes?.map((route, index) => {
+                const isOptimal = route.type === routeData.optimalRoute?.type && route.hops === routeData.optimalRoute?.hops;
+                const savingsPercent = index === 0 && routeData.allRoutes.length > 1 ? 
+                  Math.round(((parseFloat(routeData.allRoutes[1].estimatedFee?.totalFee) - parseFloat(route.estimatedFee?.totalFee)) / parseFloat(routeData.allRoutes[1].estimatedFee?.totalFee)) * 100) : 0;
+                
+                return (
+                  <div key={index} className={`comparison-row ${isOptimal ? 'optimal' : ''}`}>
+                    <span className="route-type">
+                      {isOptimal ? '⚡ Optimal' : route.type === 'direct' ? '🔗 Direct' : '🔄 Multi-hop'}
+                    </span>
+                    <span className="fee">{route.estimatedFee?.totalFeeFormatted} {route.estimatedFee?.tokenSymbol}</span>
+                    <span className="steps">{route.hops}</span>
+                    <span className="savings">{isOptimal && savingsPercent > 0 ? `${savingsPercent}%` : '-'}</span>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
