@@ -33,8 +33,5 @@ pids
 .DS_Store
 Thumbs.db
 
-# PAPI descriptors are generated during build
-# but we keep the directory structure
-.papi/descriptors/dist/
-.papi/descriptors/src/
-!.papi/descriptors/.gitignore
+# PAPI - regenerated during build
+.papi/

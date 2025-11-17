@@ -7,14 +7,9 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "build": "npm run setup-all-chains && npm run generate-descriptors",
-    "setup-chains": "npx papi add westend2 -n westend2",
-    "setup-chains-2": "npx papi add westend2_asset_hub -n westend2_asset_hub",
-    "setup-chains-3": "npx papi add westend2_bridge_hub -n westend2_bridge_hub", 
-    "setup-chains-4": "npx papi add westend2_collectives -n westend2_collectives",
-    "setup-chains-5": "npx papi add westend2_coretime -n westend2_coretime",
-    "setup-chains-6": "npx papi add westend2_people -n westend2_people",
-    "setup-all-chains": "npm run setup-chains && npm run setup-chains-2 && npm run setup-chains-3 && npm run setup-chains-4 && npm run setup-chains-5 && npm run setup-chains-6",
+    "build": "npm run clean-papi && npm run setup-westend && npm run generate-descriptors",
+    "clean-papi": "node -e \"require('fs').rmSync('.papi', {recursive: true, force: true})\"",
+    "setup-westend": "npx papi add westend2 -n westend2",
     "generate-descriptors": "npx papi",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
