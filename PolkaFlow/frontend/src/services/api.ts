@@ -1,9 +1,10 @@
-const API_BASE_URL = 'http://localhost:3001/api/v1';
+// Use environment variable for API base URL with fallback for development
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api/v1';
 
 // API service for PolkaFlow backend integration
 class ApiService {
   // Portfolio Analysis APIs
-  static async analyzePortfolio(address) {
+  static async analyzePortfolio(address: string) {
     const response = await fetch(`${API_BASE_URL}/portfolio/analyze`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -13,7 +14,7 @@ class ApiService {
     return response.json();
   }
 
-  static async validateAddress(address) {
+  static async validateAddress(address: string) {
     const response = await fetch(`${API_BASE_URL}/portfolio/validate-address`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -36,7 +37,7 @@ class ApiService {
   }
 
   // Fee Analysis APIs
-  static async compareFees(destinationAddress, amount) {
+  static async compareFees(destinationAddress: string, amount: string | number) {
     const response = await fetch(`${API_BASE_URL}/fees/compare`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -46,7 +47,7 @@ class ApiService {
     return response.json();
   }
 
-  static async getOptimalRoute(fromChain, toChain, amount) {
+  static async getOptimalRoute(fromChain: string, toChain: string, amount: number) {
     const response = await fetch(`${API_BASE_URL}/fees/optimal-route`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
