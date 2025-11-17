@@ -153,7 +153,7 @@ export const LandingPage = ({ onEnterApp }: LandingPageProps) => {
         }}>
           <button 
             className="card card-compact"
-            onClick={() => handleDemoAccount('5GrwvaEF5zXb26Fz9rcQpnWsgn7PGrtnYnxBVMn2efMvRgjT')}
+            onClick={() => handleDemoAccount('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')}
             style={{
               backgroundColor: 'var(--surface)',
               border: '1px solid var(--border-light)',
