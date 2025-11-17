@@ -6,6 +6,6 @@ interface DashboardPageProps {
   onNavigate: (page: PageType, address?: string) => void;
 }
 
-export const DashboardPage = ({ address, onNavigate }: DashboardPageProps) => {
+export const DashboardPage = ({ address }: DashboardPageProps) => {
   return <Dashboard address={address} />;
 };

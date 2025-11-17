@@ -6,6 +6,6 @@ interface OptimizerPageProps {
   onNavigate: (page: PageType, address?: string) => void;
 }
 
-export const OptimizerPage = ({ address, onNavigate }: OptimizerPageProps) => {
+export const OptimizerPage = ({ address }: OptimizerPageProps) => {
   return <Optimizer address={address} />;
 };

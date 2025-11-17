@@ -6,6 +6,6 @@ interface FeeAnalyzerPageProps {
   onNavigate: (page: PageType, address?: string) => void;
 }
 
-export const FeeAnalyzerPage = ({ address, onNavigate }: FeeAnalyzerPageProps) => {
-  return <FeeAnalyzer address={address} />;
+export const FeeAnalyzerPage = ({ }: FeeAnalyzerPageProps) => {
+  return <FeeAnalyzer />;
 };

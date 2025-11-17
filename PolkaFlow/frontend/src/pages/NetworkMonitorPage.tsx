@@ -5,6 +5,6 @@ interface NetworkMonitorPageProps {
   onNavigate: (page: PageType) => void;
 }
 
-export const NetworkMonitorPage = ({ onNavigate }: NetworkMonitorPageProps) => {
+export const NetworkMonitorPage = ({ }: NetworkMonitorPageProps) => {
   return <NetworkMonitor address="" />;
 };

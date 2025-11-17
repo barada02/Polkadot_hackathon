@@ -1,16 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import ApiService from '../../services/api';
 
 interface NetworkMonitorProps {
-  address: string;
+  address?: string;
 }
 
-function NetworkMonitor({ address }: NetworkMonitorProps) {
-  const [networkStatus, setNetworkStatus] = useState(null);
+interface HealthStatus {
+  status: string;
+  service?: string;
+  version?: string;
+  timestamp?: string;
+  error?: string;
+}
+
+interface SupportedChains {
+  portfolio: any[];
+  fees: any[];
+}
+
+function NetworkMonitor({ }: NetworkMonitorProps) {
+  const [healthStatus, setHealthStatus] = useState<HealthStatus | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [supportedChains, setSupportedChains] = useState([]);
-  const [healthStatus, setHealthStatus] = useState(null);
+  const [error, setError] = useState<string | null>(null);
+  const [supportedChains, setSupportedChains] = useState<SupportedChains>({ portfolio: [], fees: [] });
 
   useEffect(() => {
     loadNetworkData();
@@ -27,7 +39,7 @@ function NetworkMonitor({ address }: NetworkMonitorProps) {
         checkHealthStatus()
       ]);
     } catch (err) {
-      setError(err.message);
+      setError(err instanceof Error ? err.message : 'Unknown error');
       console.error('Network monitoring error:', err);
     } finally {
       setLoading(false);

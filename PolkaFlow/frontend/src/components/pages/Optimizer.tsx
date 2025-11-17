@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import ApiService from '../../services/api';
 
 interface OptimizerProps {
-  address: string;
+  address?: string;
 }
 
-function Optimizer({ address }: OptimizerProps) {
-  const [routeData, setRouteData] = useState(null);
+function Optimizer({ }: OptimizerProps) {
+  const [routeData, setRouteData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [supportedChains, setSupportedChains] = useState([]);
+  const [error, setError] = useState<string | null>(null);
+  const [supportedChains, setSupportedChains] = useState<any[]>([]);
   const [formData, setFormData] = useState({
     fromChain: '',
     toChain: '',
@@ -44,7 +44,7 @@ function Optimizer({ address }: OptimizerProps) {
     }
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
