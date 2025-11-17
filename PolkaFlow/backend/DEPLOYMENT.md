@@ -42,9 +42,10 @@ The backend automatically sets up Polkadot API chains during deployment:
 ### Build Process Flow
 1. `npm install` - Install dependencies
 2. `npm run build` - Run after dependencies are installed
-3. `npm run setup-all-chains` - Add Polkadot chains sequentially (6 chains)
-4. `npm run generate-descriptors` - Generate API descriptors
-5. `npm start` - Start the server
+3. `npm run clean-papi` - Remove existing PAPI configuration
+4. `npm run setup-all-chains` - Add all 6 Westend chains sequentially
+5. `npm run generate-descriptors` - Generate API descriptors
+6. `npm start` - Start the server
 
 ### Testing Deployment
 After deployment, test the health endpoint:
