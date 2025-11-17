@@ -1,35 +1,71 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
+import { Header } from './components/common/Header';
+import { LandingPage } from './pages/LandingPage';
+import { DashboardPage } from './pages/DashboardPage';
+import { FeeAnalyzerPage } from './pages/FeeAnalyzerPage';
+import { OptimizerPage } from './pages/OptimizerPage';
+import { NetworkMonitorPage } from './pages/NetworkMonitorPage';
+import { ErrorBoundary } from './components/common/ErrorBoundary';
+import { NotificationArea } from './components/common/NotificationArea';
+
+// Navigation types for main app
+export type PageType = 'dashboard' | 'fees' | 'optimizer' | 'network';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isInMainApp, setIsInMainApp] = useState(false);
+  const [currentPage, setCurrentPage] = useState<PageType>('dashboard');
+  const [currentAddress, setCurrentAddress] = useState<string>('');
 
+  const enterMainApp = (address: string, startPage: PageType = 'dashboard') => {
+    setCurrentAddress(address);
+    setCurrentPage(startPage);
+    setIsInMainApp(true);
+  };
+
+  const navigate = (page: PageType, address?: string) => {
+    setCurrentPage(page);
+    if (address) setCurrentAddress(address);
+  };
+
+  const backToLanding = () => {
+    setIsInMainApp(false);
+    setCurrentAddress('');
+    setCurrentPage('dashboard');
+  };
+
+  // Show landing page if not in main app
+  if (!isInMainApp) {
+    return (
+      <ErrorBoundary>
+        <LandingPage onEnterApp={enterMainApp} />
+        <NotificationArea />
+      </ErrorBoundary>
+    );
+  }
+
+  // Show main application with navigation
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <ErrorBoundary>
+      <div className="app">
+        <Header 
+          currentPage={currentPage} 
+          currentAddress={currentAddress}
+          onNavigate={navigate} 
+          onBackToLanding={backToLanding}
+        />
+        
+        <main className="main-content">
+          {currentPage === 'dashboard' && <DashboardPage address={currentAddress} onNavigate={navigate} />}
+          {currentPage === 'fees' && <FeeAnalyzerPage address={currentAddress} onNavigate={navigate} />}
+          {currentPage === 'optimizer' && <OptimizerPage address={currentAddress} onNavigate={navigate} />}
+          {currentPage === 'network' && <NetworkMonitorPage onNavigate={navigate} />}
+        </main>
+        
+        <NotificationArea />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </ErrorBoundary>
+  );
 }
 
-export default App
+export default App;
