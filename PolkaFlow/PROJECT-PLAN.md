@@ -32,6 +32,7 @@
    - One-click optimal chain selection
 
 ### **Nice-to-Have (Future):**
+- **Polkadot.js Extension Integration** (auto-connect wallet, transaction signing)
 - Transaction history tracking
 - Advanced portfolio analytics  
 - DeFi integration
@@ -74,8 +75,9 @@
 - [ ] Demo data and scenarios
 - [ ] Documentation and README
 - [ ] Deployment setup
+- [ ] **BONUS**: Polkadot.js extension integration for transaction signing
 
-**Deliverable**: Production-ready hackathon submission
+**Deliverable**: Production-ready hackathon submission with optional wallet integration
 
 ---
 
@@ -92,13 +94,16 @@
 │        with intelligent multi-chain optimization              │
 │                                                                 │
 │         ┌─────────────────────────────────────────┐             │
-│         │         [Connect Wallet]                │             │
+│         │ Enter Polkadot Address:                 │             │
+│         │ [5GrwvaEF5zXb26Fz9rcQp...        ] 🔍  │             │
+│         │         [Analyze Portfolio]             │             │
 │         └─────────────────────────────────────────┘             │
 │                                                                 │
+│    Or try demo: [Use Alice] [Use Bob] [Use Charlie]           │
 │    Live Savings: Asset Hub vs Westend Relay = 89% cheaper     │
 │                                                                 │
 │  Features:                                                      │
-│  ✅ Multi-chain portfolio management                           │
+│  ✅ Multi-chain portfolio analysis                             │
 │  ✅ Real-time fee optimization                                 │
 │  ✅ Network health monitoring                                  │
 │  ✅ Intelligent chain selection                                │
@@ -108,7 +113,7 @@
 ### **2. Main Dashboard**
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│ PolkaFlow Dashboard                          [Account] [Settings]│
+│ PolkaFlow Dashboard - Analysis Mode    [Connect Wallet] [Settings]│
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │ 🌐 Network Status                                              │
@@ -131,8 +136,10 @@
 │ Use Asset Hub for transfers - Save 89% vs Westend Relay!      │
 │                                                                 │
 │ ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐ │
-│ │ [Send Money]    │  │ [Receive]       │  │ [Chain Select]  │ │
+│ │ [Fee Analysis]  │  │ [New Address]   │  │ [Chain Select]  │ │
 │ └─────────────────┘  └─────────────────┘  └─────────────────┘ │
+│                                                                 │
+│ 💡 To send transactions: Connect your Polkadot.js wallet      │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -215,9 +222,15 @@
 - **Zustand** (Lightweight state management)
 
 ### **Backend Services:**
+- **Express.js Server** (REST API + WebSocket for real-time updates)
 - **PAPI Integration** (Our proven 9 experiments as modules)
-- **Real-time WebSocket** connections for live updates
-- **Service Workers** for background chain monitoring
+- **Address-based Queries** (Portfolio analysis for any Polkadot address)
+- **Real-time Chain Monitoring** (Fee tracking and health status)
+
+### **Wallet Integration (Future):**
+- **Polkadot.js Extension** integration for transaction signing
+- **Browser Extension Detection** and connection flow
+- **Account Management** and multi-account support
 
 ### **Deployment:**
 - **Vercel** (Frontend hosting with instant deployment)
