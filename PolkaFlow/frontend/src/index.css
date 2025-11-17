@@ -505,3 +505,23 @@ input::placeholder, textarea::placeholder {
     grid-template-columns: 1fr;
   }
 }
+
+/* Address display styles */
+.address-display {
+  font-family: monospace;
+  font-size: 0.8em;
+  word-break: break-all;
+  background: var(--surface-hover);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+/* Balance breakdown styles */
+.balance-breakdown {
+  margin-top: 4px;
+}
+
+.balance-breakdown small {
+  color: var(--text-muted);
+  font-size: 0.8em;
+}

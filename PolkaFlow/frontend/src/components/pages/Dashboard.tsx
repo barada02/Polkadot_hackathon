@@ -22,8 +22,14 @@ function Dashboard({ address }: DashboardProps) {
     try {
       setLoading(true);
       setError(null);
-      const data = await ApiService.analyzePortfolio(address);
-      setPortfolio(data);
+      const response = await ApiService.analyzePortfolio(address);
+      console.log('Portfolio API Response:', response); // Debug log
+      
+      // Handle nested response structure: response.data.data
+      const portfolioData = response.data?.data || response.data || response;
+      console.log('Portfolio Data:', portfolioData); // Debug log
+      
+      setPortfolio(portfolioData);
     } catch (err) {
       setError(err.message);
       console.error('Portfolio analysis error:', err);
@@ -92,16 +98,20 @@ function Dashboard({ address }: DashboardProps) {
             <h3>📊 Portfolio Summary</h3>
             <div className="summary-stats">
               <div className="stat">
-                <span className="label">Total Value:</span>
-                <span className="value">{formatUsdValue(portfolio.totalValue || 0)}</span>
+                <span className="label">Total Balance:</span>
+                <span className="value">{portfolio.summary?.totalBalanceFormatted || '0'} WND</span>
               </div>
               <div className="stat">
                 <span className="label">Active Chains:</span>
-                <span className="value">{portfolio.chainCount || 0}</span>
+                <span className="value">{portfolio.summary?.totalChains || 0}</span>
               </div>
               <div className="stat">
-                <span className="label">Total Assets:</span>
-                <span className="value">{portfolio.assetCount || 0}</span>
+                <span className="label">Successful Chains:</span>
+                <span className="value">{portfolio.summary?.successfulChains || 0}</span>
+              </div>
+              <div className="stat">
+                <span className="label">Analysis Time:</span>
+                <span className="value">{portfolio.summary?.analysisTime || 0}ms</span>
               </div>
             </div>
           </div>
@@ -114,16 +124,20 @@ function Dashboard({ address }: DashboardProps) {
                 portfolio.chains.map((chain, index) => (
                   <div key={index} className="chain-item">
                     <div className="chain-header">
-                      <span className="chain-name">{chain.name || chain.chainId}</span>
-                      <span className={`status ${chain.status || 'active'}`}>
-                        {chain.status === 'active' ? '🟢' : '🔴'}
+                      <span className="chain-name">{chain.chainName || chain.chainId}</span>
+                      <span className={`status ${chain.success ? 'active' : 'error'}`}>
+                        {chain.success ? '🟢' : '🔴'}
                       </span>
                     </div>
                     <div className="balance-info">
-                      <span className="balance">{formatBalance(chain.balance)} {chain.symbol || 'DOT'}</span>
-                      {chain.usdValue && <span className="usd-value">{formatUsdValue(chain.usdValue)}</span>}
+                      <span className="balance">
+                        {chain.portfolio?.formatted?.totalBalance || '0.0000'} {chain.portfolio?.formatted?.tokenSymbol || 'WND'}
+                      </span>
+                      <div className="balance-breakdown">
+                        <small>Free: {chain.portfolio?.formatted?.freeBalance || '0.0000'} | Reserved: {chain.portfolio?.formatted?.reservedBalance || '0.0000'}</small>
+                      </div>
                     </div>
-                    {chain.error && <div className="error-msg">⚠️ {chain.error}</div>}
+                    {!chain.success && <div className="error-msg">⚠️ Analysis failed</div>}
                   </div>
                 ))
               ) : (
@@ -151,21 +165,25 @@ function Dashboard({ address }: DashboardProps) {
           </div>
 
           {/* Analysis Metadata */}
-          {portfolio.metadata && (
+          {portfolio.summary && (
             <div className="card">
               <h3>📈 Analysis Details</h3>
               <div className="metadata">
                 <div className="meta-item">
+                  <span>Address:</span>
+                  <span className="address-display">{portfolio.summary.address}</span>
+                </div>
+                <div className="meta-item">
                   <span>Analysis Time:</span>
-                  <span>{new Date(portfolio.metadata.timestamp).toLocaleString()}</span>
+                  <span>{new Date(portfolio.summary.timestamp).toLocaleString()}</span>
                 </div>
                 <div className="meta-item">
                   <span>Processing Time:</span>
-                  <span>{portfolio.metadata.processingTime || 'N/A'}</span>
+                  <span>{portfolio.summary.analysisTime}ms</span>
                 </div>
                 <div className="meta-item">
-                  <span>Version:</span>
-                  <span>{portfolio.metadata.version || '1.0.0'}</span>
+                  <span>Failed Chains:</span>
+                  <span>{portfolio.summary.failedChains}</span>
                 </div>
               </div>
             </div>

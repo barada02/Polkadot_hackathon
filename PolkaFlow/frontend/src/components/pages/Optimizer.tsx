@@ -50,11 +50,16 @@ function Optimizer({ address }: OptimizerProps) {
     try {
       setLoading(true);
       setError(null);
-      const data = await ApiService.getOptimalRoute(
+      const response = await ApiService.getOptimalRoute(
         formData.fromChain,
         formData.toChain,
         parseFloat(formData.amount)
       );
+      
+      console.log('Optimal route response:', response); // Debug log
+      
+      // Handle nested response structure
+      const data = response.data?.data || response.data || response;
       setRouteData(data);
     } catch (err) {
       setError(err.message);

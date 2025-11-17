@@ -36,10 +36,16 @@ function NetworkMonitor({ address }: NetworkMonitorProps) {
 
   const loadSupportedChains = async () => {
     try {
-      const [portfolioChains, feeChains] = await Promise.all([
+      const [portfolioResponse, feeResponse] = await Promise.all([
         ApiService.getSupportedChains(),
         ApiService.getFeesSupportedChains()
       ]);
+      
+      console.log('Supported chains response:', portfolioResponse, feeResponse); // Debug log
+      
+      // Handle nested response structure
+      const portfolioChains = portfolioResponse.data?.data || portfolioResponse.data || portfolioResponse;
+      const feeChains = feeResponse.data?.data || feeResponse.data || feeResponse;
       
       setSupportedChains({
         portfolio: portfolioChains.chains || [],
@@ -52,7 +58,11 @@ function NetworkMonitor({ address }: NetworkMonitorProps) {
 
   const checkHealthStatus = async () => {
     try {
-      const health = await ApiService.healthCheck();
+      const response = await ApiService.healthCheck();
+      console.log('Health check response:', response); // Debug log
+      
+      // Handle nested response structure
+      const health = response.data?.data || response.data || response;
       setHealthStatus(health);
     } catch (err) {
       console.error('Health check failed:', err);

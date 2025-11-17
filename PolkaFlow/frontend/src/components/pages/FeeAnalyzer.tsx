@@ -41,7 +41,11 @@ function FeeAnalyzer({ address }: FeeAnalyzerProps) {
 
   const loadTestScenario = async () => {
     try {
-      const scenario = await ApiService.getTestScenario();
+      const response = await ApiService.getTestScenario();
+      console.log('Test scenario response:', response); // Debug log
+      
+      // Handle nested response structure
+      const scenario = response.data?.data || response.data || response;
       setTestScenario(scenario);
     } catch (err) {
       console.error('Failed to load test scenario:', err);
@@ -62,12 +66,16 @@ function FeeAnalyzer({ address }: FeeAnalyzerProps) {
     try {
       setLoading(true);
       setError(null);
-      const data = await ApiService.compareFees(
+      const response = await ApiService.compareFees(
         formData.fromChain,
         formData.toChain,
         parseFloat(formData.amount)
       );
-      setFeeData(data);
+      console.log('Fee comparison response:', response); // Debug log
+      
+      // Handle nested response structure
+      const feeData = response.data?.data || response.data || response;
+      setFeeData(feeData);
     } catch (err) {
       setError(err.message);
       console.error('Fee comparison error:', err);

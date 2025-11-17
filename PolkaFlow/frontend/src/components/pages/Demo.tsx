@@ -21,13 +21,19 @@ function Demo({ address }: DemoProps) {
       setLoading(true);
       setError(null);
 
-      const [testScenario, addresses] = await Promise.all([
+      const [testScenarioResponse, addressesResponse] = await Promise.all([
         ApiService.getTestScenario(),
         ApiService.getTestAddresses()
       ]);
 
+      console.log('Demo data responses:', testScenarioResponse, addressesResponse); // Debug log
+      
+      // Handle nested response structure
+      const testScenario = testScenarioResponse.data?.data || testScenarioResponse.data || testScenarioResponse;
+      const addresses = addressesResponse.data?.data || addressesResponse.data || addressesResponse;
+
       setDemoData(testScenario);
-      setTestAddresses(addresses.addresses || []);
+      setTestAddresses(addresses.addresses || addresses || []);
     } catch (err) {
       setError(err.message);
       console.error('Demo data loading error:', err);
